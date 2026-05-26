@@ -1,0 +1,2 @@
+gene,origin,genomic_location,ref,alt,type,dbsnp,associated_disease,source
+TRPV1,germline,"chr17:3,475,283(+)",G,A,SNV,rs8065080,Neuropathic Pain,ClinVar

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Download &middot; TPEA</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .dl-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16.8px;
+  }
+  .dl-table th, .dl-table td {
+    padding: 16px 18px;
+    border: 1px solid var(--c-line);
+    vertical-align: middle;
+  }
+  .dl-table th {
+    background: var(--c-cream);
+    color: var(--c-navy);
+    font-weight: 700;
+    font-size: 16.8px;
+    text-align: center;
+  }
+  .dl-table td { background: var(--c-white); }
+  .dl-table td.name { font-weight: 600; color: var(--c-navy); text-align: center; width: 260px; }
+  .dl-table td.desc { color: var(--c-slate); line-height: 1.6; }
+  .dl-table td.action { text-align: center; width: 140px; }
+  .zip-btn {
+    background: var(--c-red);
+    color: var(--c-cream);
+    padding: 10px 26px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-family: var(--f-body);
+    font-weight: 500;
+    font-size: 16.8px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background var(--transition);
+  }
+  .zip-btn:hover { background: var(--c-red-dark); color: var(--c-cream); text-decoration: none; }
+
+  .meta-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: var(--r-lg);
+  }
+  .meta-card {
+    background: var(--c-white);
+    padding: 18px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--c-line-soft);
+    border-left: 4px solid var(--c-red);
+  }
+  .meta-card .v {
+    font-family: var(--f-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: 2.16rem;
+    color: var(--c-navy);
+    line-height: 1;
+  }
+  .meta-card .l {
+    font-size: 13.2px;
+    color: var(--c-mute);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 6px;
+    font-weight: 600;
+  }
+  @media (max-width: 900px) { .meta-row { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="page-head">
+    <h1>Download</h1>
+    <p class="sub">Bulk access to TPEA datasets. All files are packaged as zip archives (tab-separated).</p>
+  </div>
+  <hr class="hr-decor">
+
+  <div class="meta-row">
+    <div class="meta-card"><div class="v" id="m-rec">0</div><div class="l">TPEA records</div></div>
+    <div class="meta-card"><div class="v" id="m-gene">0</div><div class="l">Unique genes</div></div>
+    <div class="meta-card"><div class="v" id="m-sub">0</div><div class="l">Pain sub-categories</div></div>
+    <div class="meta-card"><div class="v">Apr 2026</div><div class="l">Last release</div></div>
+  </div>
+
+  <section class="panel">
+    <div class="panel-banner">
+      <span class="icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span>
+      TPEA results
+    </div>
+    <div class="panel-body">
+      <p style="margin: 0 0 14px; color: var(--c-slate); font-size: 14.4px">
+        Per-evidence-type record-level data plus reference taxonomies. Each row in a raw evidence file corresponds to a single Analysis ID with all original fields preserved. Useful for re-analysis or ingesting into your own pipeline.
+      </p>
+      <table class="dl-table">
+        <thead>
+          <tr>
+            <th>Dataset</th>
+            <th>Description</th>
+            <th>Download</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">Validated perturbation data</td>
+            <td class="desc">Per-record functional perturbation evidence (KO / KD / overexpression / inhibitor / agonist). Includes Analysis ID, source, perturbation site, perturbation type and method, pain type and assessment, direction (Up / Down), effect, disease, and PMID.</td>
+            <td class="action"><a class="zip-btn" href="#" onclick="doDownload(event,'raw_perturbation')">zip</a></td>
+          </tr>
+          <tr>
+            <td class="name">Validated differential expression data</td>
+            <td class="desc">Per-record hypothesis-driven RNA or protein-level confirmation (RT-qPCR, Western blot, IHC, IF, ELISA, etc.). Includes Analysis ID, source, expression assessment, direction, effect, disease, and PMID.</td>
+            <td class="action"><a class="zip-btn" href="#" onclick="doDownload(event,'raw_expression')">zip</a></td>
+          </tr>
+          <tr>
+            <td class="name">High-throughput profiling data</td>
+            <td class="desc">Per-record multi-gene sequencing analyses (bulk RNA-Seq, miRNA-Seq, microarray). Includes Analysis ID, GEO accession, source, log2FC, p-value, adj. p, direction, and PMID.</td>
+            <td class="action"><a class="zip-btn" href="#" onclick="doDownload(event,'raw_sequencing')">zip</a></td>
+          </tr>
+          <tr>
+            <td class="name">Tissue / cell data</td>
+            <td class="desc">Catalog of tissue and cell-line samples: standardized name, biological cell type, originating tissue, and anatomical site of derivation. Used to look up the source associated with each record's evidence.</td>
+            <td class="action"><a class="zip-btn" href="#" onclick="doDownload(event,'tissue_cell_data')">zip</a></td>
+          </tr>
+          <tr>
+            <td class="name">Pain model hierarchical selection</td>
+            <td class="desc">Selectable conditions for Pain model: hierarchical mapping of Pain model category to sub-category to source. For populating filter widgets.</td>
+            <td class="action"><a class="zip-btn" href="#" onclick="doDownload(event,'pain_model_hierarchy')">zip</a></td>
+          </tr>
+          <tr>
+            <td class="name">Pain type hierarchical selection</td>
+            <td class="desc">Selectable conditions for Pain type: hierarchical mapping of Pain type category to Pain assessment method, including assay descriptions.</td>
+            <td class="action"><a class="zip-btn" href="#" onclick="doDownload(event,'pain_type_hierarchy')">zip</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="margin-top: 22px; padding: 16px 20px; background: var(--c-cream); border-radius: 6px; border-left: 3px solid var(--c-navy); font-size: 15.6px; color: var(--c-slate); line-height: 1.7">
+        <strong style="color: var(--c-navy)">Usage.</strong> All downloads are tab-separated value (TSV) files packaged in a single zip archive, suitable for direct import into R, pandas, or Excel. Redistribution is permitted under a CC-BY-4.0 license; please cite TPEA if used in published work (see <a href="citation.html">Citation</a>).
+      </div>
+    </div>
+  </section>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/layout.js"></script>
+<script>
+(async () => {
+TPEA_LAYOUT.mount();
+await window.TPEA_DATA_READY;
+const D = window.TPEA_DATA;
+const U = window.TPEA_UTIL;
+
+U.qs('#m-rec').textContent = D.records.length.toLocaleString();
+U.qs('#m-gene').textContent = new Set(D.records.map(r => r.gene)).size;
+U.qs('#m-sub').textContent = D.painModels.length;
+
+function tsv(rows, headers) {
+  const esc = v => {
+    if (v == null) return '';
+    return String(v).replace(/\t/g, ' ').replace(/\n/g, ' ');
+  };
+  // Each header can be either a string (used both as field key and display name)
+  // or a [fieldKey, displayName] tuple (different on-disk column header).
+  const keyOf  = h => Array.isArray(h) ? h[0] : h;
+  const labelOf = h => Array.isArray(h) ? h[1] : h;
+  return [headers.map(labelOf).join('\t')]
+    .concat(rows.map(r => headers.map(h => esc(r[keyOf(h)])).join('\t')))
+    .join('\n');
+}
+function triggerDownload(content, filename) {
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 200);
+}
+
+function doDownload(e, dataset) {
+  e.preventDefault();
+  let content, filename;
+  if (dataset === 'tissue_cell_data') {
+    /* Tissue / cell-line catalog: standardized name, biological cell type,
+       originating tissue, and anatomical site of derivation.
+       Column headers match the curated source spreadsheet exactly. */
+    content = tsv(
+      D.tissueCellCatalog,
+      [
+        ['new_name',     'New_name'],
+        ['cell_type',    'Cell_type'],
+        ['tissue',       'Tissue'],
+        ['derived_from', 'Derived from site'],
+      ]
+    );
+    filename = 'TPEA_tissue_cell_data.tsv';
+  } else if (dataset === 'pain_model_hierarchy') {
+    content = tsv(D.painModels.map(m => ({
+      category: m.category, sub_category: m.sub, full_name: m.fullName,
+      species: m.species.join(';'), pmid: m.pmid || ''
+    })), ['category','sub_category','full_name','species','pmid']);
+    filename = 'TPEA_pain_model_hierarchy.tsv';
+  } else if (dataset === 'pain_type_hierarchy') {
+    content = tsv(D.painTypes, ['type','assessment','desc']);
+    filename = 'TPEA_pain_type_hierarchy.tsv';
+  } else if (dataset === 'raw_sequencing') {
+    /* Expand every record's seq evidence into rows */
+    const rows = [];
+    D.records.forEach(rec => {
+      const ev = D.buildEvidence(rec);
+      ev.seqRows.forEach(r => {
+        rows.push({
+          analysis_id: r.analysis_id,
+          tpea_id: rec.tpea_id,
+          gene: rec.gene,
+          ensembl: rec.ensembl,
+          organism: rec.organism_sci || rec.organism,
+          source: r.tissue,
+          model_cat: rec.model_cat,
+          model_sub: rec.model_sub,
+          gse: r.gse,
+          assay: r.assay,
+          direction: r.direction,
+          log2fc: r.log2fc.toFixed(3),
+          pvalue: r.pvalue.toExponential(3),
+          adj_p: r.adjp.toExponential(3),
+          pmid: r.pmid,
+        });
+      });
+    });
+    content = tsv(rows, ['analysis_id','tpea_id','gene','ensembl','organism','source','model_cat','model_sub','gse','assay','direction','log2fc','pvalue','adj_p','pmid']);
+    filename = 'TPEA_raw_sequencing.tsv';
+  } else if (dataset === 'raw_expression') {
+    const rows = [];
+    D.records.forEach(rec => {
+      const ev = D.buildEvidence(rec);
+      ev.exprRows.forEach(r => {
+        rows.push({
+          analysis_id: r.analysis_id,
+          tpea_id: rec.tpea_id,
+          level: 'Expression',
+          gene: rec.gene,
+          pain_model_category: r.pain_model_category,
+          pain_model_sub_category: r.pain_model_sub,
+          source: r.source,
+          organism: r.organism,
+          expression_assessment: r.expression_assessment,
+          direction: r.direction,
+          effect: r.effect,
+          disease: r.disease,
+          pmid: r.pmid,
+        });
+      });
+    });
+    content = tsv(rows, ['analysis_id','tpea_id','level','gene','pain_model_category','pain_model_sub_category','source','organism','expression_assessment','direction','effect','disease','pmid']);
+    filename = 'TPEA_raw_expression.tsv';
+  } else if (dataset === 'raw_perturbation') {
+    const rows = [];
+    D.records.forEach(rec => {
+      const ev = D.buildEvidence(rec);
+      ev.pertRows.forEach(r => {
+        rows.push({
+          analysis_id: r.analysis_id,
+          tpea_id: rec.tpea_id,
+          level: 'Perturbation',
+          gene: rec.gene,
+          pain_model_category: r.pain_model_category,
+          pain_model_sub_category: r.pain_model_sub,
+          source: r.source,
+          perturbation_site: r.perturbation_site,
+          organism: r.organism,
+          pain_type: r.pain_type,
+          pain_assessment: r.pain_assessment,
+          perturbation: r.perturbation,
+          perturbation_method: r.perturbation_method,
+          direction: r.direction,
+          effect: r.effect,
+          disease: r.disease,
+          pmid: r.pmid,
+        });
+      });
+    });
+    content = tsv(rows, ['analysis_id','tpea_id','level','gene','pain_model_category','pain_model_sub_category','source','perturbation_site','organism','pain_type','pain_assessment','perturbation','perturbation_method','direction','effect','disease','pmid']);
+    filename = 'TPEA_raw_perturbation.tsv';
+  }
+  triggerDownload(content, filename);
+}
+window.doDownload = doDownload;
+})();
+</script>
+</body>
+</html>

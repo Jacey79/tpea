@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entry &middot; TPEA</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .entry-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .entry-title {
+    font-family: var(--f-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: 2.88rem;
+    color: var(--c-red);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .entry-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+  .chip {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 14.4px;
+    font-weight: 600;
+    background: var(--c-cream);
+    color: var(--c-navy);
+    border: 1px solid var(--c-line);
+  }
+  .chip-red { background: var(--c-red); color: var(--c-cream); border-color: var(--c-red); }
+
+  /* Two-column layout removed — see "detail的侧边栏还是取消" spec.
+     Content now flows full-width without an aside. */
+
+  /* Confidence hero (now without radar) */
+  .confidence-hero {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 18px;
+    align-items: center;
+    padding: 10px 22px;
+    background: linear-gradient(90deg, rgba(158,209,123,0.10), rgba(88,187,209,0.10), rgba(52,146,178,0.10));
+    border-radius: 10px;
+    border: 1px solid var(--c-line);
+    margin-bottom: var(--r-md);
+  }
+  .confidence-score {
+    font-family: var(--f-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: 2.4rem;
+    color: var(--c-navy);
+    line-height: 1;
+    padding: 0 18px 0 4px;
+    border-right: 1px solid var(--c-line);
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .confidence-score small { font-family: var(--f-body); font-style: normal; font-weight: 600; font-size: 11px; color: var(--c-mute); letter-spacing: 0.1em; text-transform: uppercase; }
+  /* Compact pills inside the (half-height) confidence hero */
+  .confidence-hero .conf-jumps { gap: 10px; flex-wrap: wrap; }
+  .confidence-hero .conf-jump {
+    padding: 5px 11px;
+    font-size: 12.5px;
+    gap: 7px;
+  }
+  .confidence-hero .conf-jump-num {
+    width: 22px; height: 22px;
+    font-size: 12.5px;
+  }
+  .confidence-hero .conf-arrow { font-size: 16px; }
+
+  /* Info row: Entry information (left) + Radar card (right) */
+  .info-row {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 22px;
+    align-items: stretch;
+  }
+  .info-row > .detail-card { margin-bottom: 0; }
+  .radar-card {
+    background: var(--c-white);
+    border: 1px solid var(--c-line-soft);
+    border-radius: 10px;
+    padding: 22px 22px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(49,58,91,0.05);
+  }
+  .radar-card-head {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .radar-card-title {
+    font-family: var(--f-body);
+    font-weight: 700;
+    color: var(--c-navy);
+    font-size: 17px;
+    margin: 0;
+    letter-spacing: 0.01em;
+  }
+  .radar-card svg { width: 100%; max-width: 280px; height: auto; }
+  .radar-card .caption {
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--c-mute);
+    text-align: center;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-family: var(--f-body);
+  }
+  @media (max-width: 1100px) {
+    .info-row { grid-template-columns: 1fr; }
+  }
+
+  /* Disease-associated variants tag */
+  .var-tag {
+    display: inline-block;
+    background: var(--c-cream);
+    color: var(--c-navy);
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 13.8px;
+    font-weight: 600;
+    border: 1px solid var(--c-line);
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="page-head">
+    <div class="entry-head">
+      <h1 class="entry-title" id="entry-title">&hellip;</h1>
+      <div class="entry-chips" id="entry-chips"></div>
+    </div>
+    <p class="sub">Integrated evidence record for a pain-associated gene in a defined tissue &times; pain-model context.</p>
+  </div>
+  <hr class="hr-decor">
+
+  <!-- Confidence hero banner with clickable evidence buttons -->
+  <div class="confidence-hero" id="conf-hero" style="display:none">
+    <div class="confidence-score"><span id="conf-num">0</span><small>Confidence</small></div>
+    <div class="conf-jumps" id="conf-breakdown"></div>
+  </div>
+
+      <!-- Info row: Entry information (left) + Radar card (right, with download) -->
+      <div class="info-row" id="info">
+        <div class="detail-card" style="margin-bottom: 0">
+          <h3>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
+            Entry information
+          </h3>
+          <table class="kv-table" id="kv-info"></table>
+        </div>
+
+        <div class="radar-card">
+          <div class="radar-card-head">
+            <h4 class="radar-card-title">Evidence strength</h4>
+            <button class="btn btn-sm btn-ghost" id="dl-radar" title="Download radar as PDF" style="padding: 5px 11px; font-size: 12px">&darr; PDF</button>
+          </div>
+          <svg id="ev-radar" viewBox="0 0 260 260" style="margin-bottom: -2px"></svg>
+          <div id="ev-radar-caption" class="caption" style="text-transform: none; letter-spacing: 0.005em; text-align: left; font-weight: 400; color: var(--c-slate); line-height: 1.65; padding: 4px 2px 0; font-size: 12px">
+            <div><span style="display:inline-block; width:9px; height:9px; border-radius:50%; background: #3492B2; margin-right:8px; vertical-align:middle"></span>Validated perturbation</div>
+            <div><span style="display:inline-block; width:9px; height:9px; border-radius:50%; background: #58BBD1; margin-right:8px; vertical-align:middle"></span>Validated differential expression</div>
+            <div><span style="display:inline-block; width:9px; height:9px; border-radius:50%; background: #9ED17B; margin-right:8px; vertical-align:middle"></span>High-throughput profiling</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Validated perturbation — highest evidence tier -->
+      <div class="detail-card" id="pert" style="margin-top: var(--r-lg)">
+        <h3>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0f607c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 4v16M4 12h16"/></svg>
+          Validated perturbation
+          <span class="chip ev-tag ev-tag-pert" id="pert-count" style="margin-left: auto">0</span>
+        </h3>
+        <div id="pert-body">
+          <p style="color:var(--c-mute); font-style: italic; text-align:center; padding: 20px 0">No perturbation evidence recorded for this entry.</p>
+        </div>
+        <div class="pager" id="pert-pager" style="display:none"></div>
+      </div>
+
+      <!-- Validated differential expression — middle evidence tier -->
+      <div class="detail-card" id="expr">
+        <h3>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1c6a80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 10h16M10 4v16"/></svg>
+          Validated differential expression
+          <span class="chip ev-tag ev-tag-expr" id="expr-count" style="margin-left: auto">0</span>
+        </h3>
+        <div id="expr-body">
+          <p style="color:var(--c-mute); font-style: italic; text-align:center; padding: 20px 0">No differential-expression evidence recorded for this entry.</p>
+        </div>
+        <div class="pager" id="expr-pager" style="display:none"></div>
+      </div>
+
+      <!-- High-throughput profiling — discovery tier -->
+      <div class="detail-card" id="seq">
+        <h3>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3d6b1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 14h4l2-6 4 12 4-10 2 4h8"/></svg>
+          High-throughput profiling
+          <span class="chip ev-tag ev-tag-seq" id="seq-count" style="margin-left: auto">0</span>
+        </h3>
+        <div id="seq-body">
+          <p style="color:var(--c-mute); font-style: italic; text-align:center; padding: 20px 0">No high-throughput profiling evidence recorded for this entry.</p>
+        </div>
+        <div class="pager" id="seq-pager" style="display:none"></div>
+      </div>
+
+
+      <!-- RNA-associated diseases (DisGeNET-style) — navy theme to match other cards (per spec page 9) -->
+      <div class="detail-card" id="diseases">
+        <h3>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="6"/></svg>
+          RNA-associated diseases
+          <span class="chip" id="dis-count" style="margin-left: auto; background: var(--c-cream); color: var(--c-navy); border-color: var(--c-line); font-weight: 700">0</span>
+        </h3>
+        <div id="dis-body"></div>
+        <div class="pager" id="dis-pager" style="display:none"></div>
+      </div>
+
+      <!-- Disease-associated variants — navy theme (per spec page 9) -->
+      <div class="detail-card" id="variants">
+        <h3>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M12 3v18"/></svg>
+          Disease-associated variants
+          <span class="chip" id="var-count" style="margin-left: auto; background: var(--c-cream); color: var(--c-navy); border-color: var(--c-line); font-weight: 700">0</span>
+        </h3>
+        <div id="var-body"></div>
+      </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/layout.js"></script>
+<script>
+(async () => {
+TPEA_LAYOUT.mount();
+await window.TPEA_DATA_READY;
+const D = window.TPEA_DATA;
+const U = window.TPEA_UTIL;
+
+const id = U.getQueryParam('id') || (D.records[0] && D.records[0].tpea_id);
+const rec = D.records.find(r => r.tpea_id === id) || D.records[0];
+
+if (!rec) {
+  U.qs('.container').innerHTML = `<div class="detail-card"><h3>Entry not found</h3><p>No entry exists for ID <code>${U.esc(id)}</code>. <a href="browse.html">Return to Browse &raquo;</a></p></div>`;
+} else {
+  U.qs('#entry-title').textContent = rec.tpea_id;
+  U.qs('#entry-chips').innerHTML = `
+    <span class="chip chip-red">${U.esc(rec.gene)}</span>
+    <span class="chip">${U.esc(rec.organism_sci || rec.organism)}</span>
+    <span class="chip">${U.esc(rec.tissue)}</span>
+    <span class="chip">${U.esc(rec.model_sub)}</span>
+  `;
+
+  // Confidence hero with CLICKABLE jump buttons (per spec)
+  U.qs('#conf-hero').style.display = 'grid';
+  U.qs('#conf-num').textContent = rec.confidence;
+  U.qs('#conf-breakdown').innerHTML = `
+    <a class="conf-jump pert" href="#pert" title="Validated perturbation">
+      <span class="conf-jump-num">${rec.pert}</span>
+      <span>VP</span>
+      <span class="conf-arrow">&rarr;</span>
+    </a>
+    <a class="conf-jump expr" href="#expr" title="Validated differential expression">
+      <span class="conf-jump-num">${rec.expr}</span>
+      <span>VDE</span>
+      <span class="conf-arrow">&rarr;</span>
+    </a>
+    <a class="conf-jump seq"  href="#seq" title="High-throughput profiling">
+      <span class="conf-jump-num">${rec.seq}</span>
+      <span>HTP</span>
+      <span class="conf-arrow">&rarr;</span>
+    </a>
+  `;
+
+  // Evidence radar/triangle (3 corners; area encodes strength).
+  // Pert at top apex (highest tier), DE bottom-right, HTS bottom-left.
+  (function drawRadar() {
+    const svg = U.qs('#ev-radar');
+    const cx = 130, cy = 124, R = 78;
+    const max = Math.max(rec.seq, rec.expr, rec.pert, 1);
+    const angles = [-90, 30, 150];
+    const labels = [
+      ['VP',  ''],
+      ['VDE', ''],
+      ['HTP', ''],
+    ];
+    const colors = [D.evidenceColors.pert, D.evidenceColors.expr, D.evidenceColors.seq];
+    const vals   = [rec.pert, rec.expr, rec.seq];
+    let html = '';
+    // grid rings (33%, 66%, 100%)
+    [0.33, 0.66, 1].forEach((t, ri) => {
+      const pts = angles.map(a => {
+        const r = R * t;
+        return [cx + r * Math.cos(a * Math.PI / 180), cy + r * Math.sin(a * Math.PI / 180)];
+      });
+      html += '<polygon points="' + pts.map(p => p.join(',')).join(' ') + '" fill="' + (ri === 2 ? 'rgba(238,233,227,0.3)' : 'none') + '" stroke="#d8d2c4" stroke-width="1"/>';
+    });
+    // axes lines
+    angles.forEach(a => {
+      const x = cx + R * Math.cos(a * Math.PI / 180);
+      const y = cy + R * Math.sin(a * Math.PI / 180);
+      html += '<line x1="' + cx + '" y1="' + cy + '" x2="' + x + '" y2="' + y + '" stroke="#d8d2c4" stroke-width="1"/>';
+    });
+    // data polygon
+    const pts = angles.map((a, i) => {
+      const r = Math.max(2, (vals[i] / max) * R);
+      return [cx + r * Math.cos(a * Math.PI / 180), cy + r * Math.sin(a * Math.PI / 180)];
+    });
+    html += '<polygon points="' + pts.map(p => p.join(',')).join(' ') + '" fill="rgba(141,46,44,0.22)" stroke="#8D2E2C" stroke-width="2.2"/>';
+    pts.forEach((p, i) => {
+      html += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="4.5" fill="' + colors[i] + '" stroke="#fff" stroke-width="2"/>';
+    });
+    // Labels — single-line (VP / VDE / HTP); colored to match the polygon vertex.
+    angles.forEach((a, i) => {
+      const lx = cx + (R + 30) * Math.cos(a * Math.PI / 180);
+      const ly = cy + (R + 26) * Math.sin(a * Math.PI / 180) + 5;
+      html += '<text x="' + lx + '" y="' + ly + '" font-size="14.5" font-weight="800" font-family="Arial" fill="' + colors[i] + '" text-anchor="middle" letter-spacing="0.5">' + labels[i][0] + '</text>';
+      const vy = ly + 17;
+      html += '<text x="' + lx + '" y="' + vy + '" font-size="13" font-weight="700" font-family="Arial" fill="#1f2941" text-anchor="middle">' + vals[i] + '</text>';
+    });
+    svg.innerHTML = html;
+  })();
+
+  /* Download radar as PDF */
+  U.qs('#dl-radar').addEventListener('click', () => {
+    U.downloadSvgAsPdf(
+      U.qs('#ev-radar'),
+      'TPEA_evidence_radar_' + (rec.tpea_id || 'entry'),
+      {
+        bottomLegendItems: [
+          { label: 'Validated perturbation',             color: '#3492B2' },
+          { label: 'Validated differential expression',  color: '#58BBD1' },
+          { label: 'High-throughput profiling',          color: '#9ED17B' },
+        ],
+      }
+    );
+  });
+
+  // Entry information KV table — Organism shows ONLY scientific name; NO Confidence row
+  U.qs('#kv-info').innerHTML = `
+    <tr><td>TPEA ID</td><td class="text-mono">${U.esc(rec.tpea_id)}</td></tr>
+    <tr><td>Gene symbol</td><td><strong>${U.esc(rec.gene)}</strong></td></tr>
+    <tr><td>Ensembl ID</td><td>${U.ensemblLink(rec.ensembl)}</td></tr>
+    <tr><td>Species</td><td><em>${U.esc(rec.organism_sci || rec.organism)}</em></td></tr>
+    <tr><td>Source</td><td>${U.esc(rec.tissue)}</td></tr>
+    <tr><td>Pain model category</td><td><a href="browse.html?cat=${encodeURIComponent(rec.model_cat)}">${U.esc(rec.model_cat)}</a></td></tr>
+    <tr><td>Pain model sub-category</td><td><a href="painmodel.html?id=${encodeURIComponent(rec.model_sub)}">${U.esc(rec.model_sub)}</a></td></tr>
+  `;
+
+  const ev = D.buildEvidence(rec);
+
+  U.qs('#seq-count').textContent = rec.seq;
+  U.qs('#expr-count').textContent = rec.expr;
+  U.qs('#pert-count').textContent = rec.pert;
+
+  /* Generic paged table renderer */
+  const PER_PAGE_DEFAULT = 10;
+
+  function renderPagedTable(opts) {
+    // opts: { rows, headers (array of {label, tip, style}), tdRender (row -> cells html string), bodyEl, pagerEl, emptyMsg }
+    const total = opts.rows.length;
+    if (!total) {
+      opts.bodyEl.innerHTML = `<p style="color:var(--c-mute); font-style: italic; text-align:center; padding: 20px 0">${opts.emptyMsg}</p>`;
+      opts.pagerEl.style.display = 'none';
+      return;
+    }
+    let page = 1;
+    let pageSize = PER_PAGE_DEFAULT;
+    function draw() {
+      const pages = Math.max(1, Math.ceil(total / pageSize));
+      if (page > pages) page = pages;
+      const from = (page - 1) * pageSize;
+      const to = Math.min(from + pageSize, total);
+      const slice = opts.rows.slice(from, to);
+      opts.bodyEl.innerHTML = `
+        <div class="table-wrap">
+          <div style="overflow-x: auto">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  ${opts.headers.map(h => `<th${h.style?` style="${h.style}"`:''}${h.tip?` data-tip="${U.esc(h.tip)}"`:''}>${h.label}</th>`).join('')}
+                </tr>
+              </thead>
+              <tbody>
+                ${slice.map(opts.tdRender).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+      // Show the pager (with page-size + Go-to-page controls) whenever we have
+      // more rows than the smallest page-size option, so the user can switch
+      // page sizes / jump pages even on small datasets.
+      if (total > PER_PAGE_DEFAULT) {
+        opts.pagerEl.style.display = 'flex';
+        U.renderPager(
+          opts.pagerEl,
+          page,
+          pages,
+          total,
+          p => { page = p; draw(); },
+          newSize => { pageSize = newSize; page = 1; draw(); }
+        );
+      } else {
+        opts.pagerEl.style.display = 'none';
+      }
+    }
+    draw();
+  }
+
+  /* Sequencing — Add Analysis ID column. Samples column removed per spec.
+     All cells inherit centered alignment from .data-table tbody td.
+     Bulk-level only (data.js already enforces). */
+  renderPagedTable({
+    rows: ev.seqRows,
+    bodyEl: U.qs('#seq-body'),
+    pagerEl: U.qs('#seq-pager'),
+    emptyMsg: 'No sequencing evidence recorded for this entry.',
+    headers: [
+      { label: 'Analysis<br>ID',  tip: 'Analysis identifier' },
+      { label: 'GEO<br>accession',tip: 'NCBI GEO series accession' },
+      { label: 'Assay',           tip: 'Bulk-level sequencing assay type' },
+      { label: 'Source',          tip: 'Tissue or cell line of evidence' },
+      { label: 'Direction',       tip: 'Up = expression direction and pain direction agree (e.g. gene upregulated in pain). Down = directions disagree.' },
+      { label: 'log2FC',          tip: 'Log2 fold change (pain vs. control)' },
+      { label: 'p-value',         tip: 'Raw p-value of the differential test' },
+      { label: 'adj. p',          tip: 'Multiple-testing-corrected p-value' },
+      { label: 'PMID',            tip: 'PubMed identifier of the source paper' },
+    ],
+    tdRender: r => `
+      <tr>
+        <td class="text-mono" style="font-size: 14.4px">${U.esc(r.analysis_id)}</td>
+        <td>${U.geoLink(r.gse)}</td>
+        <td>${U.esc(r.assay)}</td>
+        <td>${U.esc(r.tissue)}</td>
+        <td>${U.dirBadge(r.direction)}</td>
+        <td class="text-mono">${r.log2fc.toFixed(2)}</td>
+        <td class="text-mono">${r.pvalue.toExponential(2)}</td>
+        <td class="text-mono">${r.adjp.toExponential(2)}</td>
+        <td>${U.pmidLink(r.pmid)}</td>
+      </tr>
+    `,
+  });
+
+  /* Expression — full schema per spec.
+     Columns: Analysis ID, Source, Expression assessment, Direction, Effect, Disease, PMID.
+     (Level/Gene/Pain model are implicit from the entry header.) */
+  renderPagedTable({
+    rows: ev.exprRows,
+    bodyEl: U.qs('#expr-body'),
+    pagerEl: U.qs('#expr-pager'),
+    emptyMsg: 'No expression-level evidence recorded for this entry.',
+    headers: [
+      { label: 'Analysis<br>ID',           tip: 'Analysis identifier' },
+      { label: 'Source',                   tip: 'Tissue or cell where expression of the target gene was assessed' },
+      { label: 'Expression<br>assessment', tip: 'Method used to compare expression in pain model vs. control (e.g. RT-qPCR, Western blot, IHC, IF, ELISA)' },
+      { label: 'Direction',                tip: 'Up = expression direction and pain direction agree (e.g. gene upregulated in pain). Down = directions disagree.' },
+      { label: 'Effect',                   tip: 'Key finding describing the differential expression of the gene between pain model and control' },
+      { label: 'Disease',                  tip: 'Disease modeled by this pain paradigm' },
+      { label: 'PMID',                     tip: 'PubMed identifier of the source publication' },
+    ],
+    tdRender: r => `
+      <tr>
+        <td class="text-mono" style="font-size: 14.4px">${U.esc(r.analysis_id)}</td>
+        <td>${U.esc(r.source)}</td>
+        <td><strong>${U.esc(r.expression_assessment)}</strong></td>
+        <td>${U.dirBadge(r.direction)}</td>
+        <td style="max-width: 760px; min-width: 480px"><div class="clamp-3">${U.esc(r.effect)}</div></td>
+        <td>${U.esc(r.disease)}</td>
+        <td>${U.pmidLink(r.pmid)}</td>
+      </tr>
+    `,
+  });
+
+  /* Perturbation — full schema per spec.
+     Columns: Analysis ID, Source, Perturbation site, Perturbation, Perturbation method,
+     Pain type, Pain assessment, Effect, Disease, PMID. */
+  renderPagedTable({
+    rows: ev.pertRows,
+    bodyEl: U.qs('#pert-body'),
+    pagerEl: U.qs('#pert-pager'),
+    emptyMsg: 'No perturbation evidence recorded for this entry.',
+    headers: [
+      { label: 'Analysis<br>ID',            tip: 'Analysis identifier' },
+      { label: 'Source',                    tip: 'Tissue or cell where successful perturbation was confirmed (e.g. via Western blot or IF)' },
+      { label: 'Perturbation<br>site',      tip: 'Site of injection or local treatment; "Systemic" if globally perturbed (e.g. germline KO)' },
+      { label: 'Perturbation',              tip: 'Type of gene perturbation: Overexpress / Knockout / Knock down / Inhibitor / Agonist' },
+      { label: 'Perturbation<br>method',    tip: 'Specific method (Overexpress: Electroporation/Viral/CRISPRa; Knock down: siRNA/shRNA/ASO/CRISPRi; Knockout: CRISPR-Cas9/Cre-loxP; Inhibitor/Agonist: drug name or neutralizing antibody)' },
+      { label: 'Pain<br>type',              tip: 'Mechanical / Thermal / Cold / Chemical / Visceral pain, Electrophysiology, or Spontaneous behavior' },
+      { label: 'Pain<br>assessment',        tip: 'Specific behavioral or physiological assay used (e.g. Von Frey, Hot plate, Hargreaves, Formalin test)' },
+      { label: 'Direction',                 tip: 'Up = perturbation result is consistent with gene-pain coupling (e.g. KO → less pain → gene is pro-pain). Down = perturbation result is opposite to expression direction (e.g. KO → more pain → gene is anti-pain).' },
+      { label: 'Effect',                    tip: 'Key finding describing how the pain phenotype changed after perturbation' },
+      { label: 'Disease',                   tip: 'Disease modeled by this pain paradigm' },
+      { label: 'PMID',                      tip: 'PubMed identifier of the source publication' },
+    ],
+    tdRender: r => `
+      <tr>
+        <td class="text-mono" style="font-size: 14.4px">${U.esc(r.analysis_id)}</td>
+        <td>${U.esc(r.source)}</td>
+        <td>${U.esc(r.perturbation_site)}</td>
+        <td><strong>${U.esc(r.perturbation)}</strong></td>
+        <td>${U.esc(r.perturbation_method)}</td>
+        <td>${U.esc(r.pain_type)}</td>
+        <td>${U.esc(r.pain_assessment)}</td>
+        <td>${U.dirBadgePert(r.direction)}</td>
+        <td style="max-width: 760px; min-width: 480px"><div class="clamp-3">${U.esc(r.effect)}</div></td>
+        <td>${U.esc(r.disease)}</td>
+        <td>${U.pmidLink(r.pmid)}</td>
+      </tr>
+    `,
+  });
+
+  /* RNA-associated diseases */
+  U.qs('#dis-count').textContent = ev.diseaseRows.length;
+  renderPagedTable({
+    rows: ev.diseaseRows,
+    bodyEl: U.qs('#dis-body'),
+    pagerEl: U.qs('#dis-pager'),
+    emptyMsg: 'No RNA-associated diseases recorded.',
+    headers: [
+      { label: 'Gene<br>symbol' },
+      { label: 'Disease<br>name' },
+      { label: 'Source' },
+      { label: 'PMID' },
+    ],
+    tdRender: r => {
+      const cui = (r.source || '').replace('DisGeNET:', '');
+      return `
+        <tr>
+          <td><strong>${U.esc(r.gene)}</strong></td>
+          <td>${U.esc(r.disease)}</td>
+          <td><a href="https://www.disgenet.org/disease/${U.esc(r.cui)}/summary" target="_blank" rel="noopener" class="text-mono" style="font-size: 14.4px">${U.esc(r.source)}</a></td>
+          <td>${U.pmidLink(r.pmid)}</td>
+        </tr>
+      `;
+    },
+  });
+
+  /* Disease-associated variants */
+  U.qs('#var-count').textContent = ev.variantRows.length;
+  if (!ev.variantRows.length) {
+    U.qs('#var-body').innerHTML = `<p style="color:var(--c-mute); font-style: italic; text-align:center; padding: 20px 0">No disease-associated variants recorded.</p>`;
+  } else {
+    U.qs('#var-body').innerHTML = `
+      <div class="table-wrap">
+        <div style="overflow-x: auto">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Gene<br>symbol</th>
+                <th>Origin</th>
+                <th>Genomic<br>location</th>
+                <th>Ref</th>
+                <th>Alt</th>
+                <th>Type</th>
+                <th>dbSNP<br>ID</th>
+                <th>Associated<br>disease</th>
+                <th>Source</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${ev.variantRows.map(r => `
+                <tr>
+                  <td><strong>${U.esc(r.gene)}</strong></td>
+                  <td>${U.esc(r.origin)}</td>
+                  <td class="text-mono" style="font-size: 14.4px">${U.esc(r.genomic_location)}</td>
+                  <td class="text-mono">${U.esc(r.ref)}</td>
+                  <td class="text-mono">${U.esc(r.alt)}</td>
+                  <td>${U.esc(r.type)}</td>
+                  <td>${r.dbsnp ? `<a href="https://www.ncbi.nlm.nih.gov/snp/${r.dbsnp}" target="_blank" rel="noopener" class="text-mono" style="font-size: 14.4px">${r.dbsnp}</a>` : '<span style="color:var(--c-mute)">n/a</span>'}</td>
+                  <td><span class="var-tag">${U.esc(r.associated_disease)}</span></td>
+                  <td>${U.esc(r.source)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+  }
+
+  /* If URL contains a hash, scroll to section */
+  if (location.hash) {
+    setTimeout(() => {
+      const el = document.querySelector(location.hash);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 120);
+  }
+}
+})();
+</script>
+</body>
+</html>

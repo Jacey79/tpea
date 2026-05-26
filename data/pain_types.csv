@@ -1,0 +1,12 @@
+type,assessment,description
+Mechanical pain,Von Frey test,Graded monofilaments applied to the plantar surface; withdrawal threshold is the 50% response filament.
+Mechanical pain,Randall-Selitto test,Increasing pressure applied to paw with an analgesiometer; threshold is force at withdrawal/vocalization.
+Mechanical pain,Pin-prick test,Noxious punctate stimulus; response duration or frequency is scored.
+Thermal pain,Hargreaves test,Radiant heat focused on plantar surface; withdrawal latency measured.
+Thermal pain,Hot plate test,Animal placed on 50–55°C plate; latency to licking/jumping recorded.
+Thermal pain,Cold plate / acetone test,Cold or evaporative stimulus; withdrawal duration scored.
+Thermal pain,Tail-flick test,Radiant heat on tail; time to tail withdrawal recorded.
+Spontaneous pain,Grimace scale,"Facial action-unit scoring (orbital tightening, nose bulge, ear/whisker change)."
+Spontaneous pain,Conditioned place preference,Analgesic-paired chamber preference indicates tonic pain relief.
+Visceral pain,Colorectal distension,Balloon distension of distal colon; visceromotor response (EMG) recorded.
+Visceral pain,Abdominal writhing,Intraperitoneal acetic acid induces writhing; count over 15–30 min.

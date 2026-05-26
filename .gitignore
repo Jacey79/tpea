@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Node / JS (if you ever add tooling)
+node_modules/
+package-lock.json
+yarn.lock
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+.cursorignore
+
+# Pages local preview
+.cache/
+
+# Logs
+*.log

@@ -1,0 +1,2 @@
+analysis_id,tpea_id,level,gene,pain_model_category,pain_model_sub,source,perturbation_site,organism,pain_type,pain_assessment,perturbation,perturbation_method,direction,effect,disease,pmid
+TPEA-P-00001-01,TPEA_00001,Perturbation,TRPV1,Neuropathic Pain Models,CCI,Dorsal root ganglion (DRG),Systemic,Mus musculus,Thermal pain,Hargreaves test,Knockout,CRISPR-Cas9,Up,TRPV1 knockout significantly attenuated thermal hyperalgesia in the CCI model.,Neuropathic pain,28765432

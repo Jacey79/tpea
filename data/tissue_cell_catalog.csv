@@ -1,0 +1,26 @@
+new_name,cell_type,tissue,derived_from
+ADSCs,Adipose-derived mesenchymal stem cells,Adipose,Adipose
+Beige adipocytes,Beige adipocytes,Adipose,Adipose
+Brown adipocytes,Brown adipocytes,Adipose,Adipose
+Brown preadipocytes,Brown preadipocytes,Adipose,Adipose
+HASCs,Human adipose-derived stem cells,Adipose,Adipose
+Rabbit preadipocytes,Preadipocytes,Adipose,Adipose
+White adipocytes,White adipocytes,Adipose,Adipose
+YIMAs,Yak intramuscular pre-adipocytes,Adipose,Adipose
+FRH0201,Cholangiocarcinoma cells,Bile duct,Intrahepatic bile duct
+H1 [Intrahepatic cholangiocarcinoma],Cholangiocarcinoma cells,Bile duct,Intrahepatic bile duct
+HCCC-9810,Cholangiocarcinoma cells,Bile duct,Intrahepatic bile duct
+DRG (whole),Dorsal root ganglion neurons (whole tissue),Dorsal root ganglion,Lumbar DRG (L4-L6)
+DRG-SCN10A+,Nav1.8-expressing nociceptors,Dorsal root ganglion,Lumbar DRG
+DRG-TRPV1+,TRPV1-expressing nociceptors,Dorsal root ganglion,Lumbar DRG
+F11,Mouse neuroblastoma × rat DRG hybrid cells,Dorsal root ganglion,DRG (immortalized)
+iPSC-Sensory,iPSC-derived sensory neurons,Dorsal root ganglion,Human iPSC (peripheral neuron)
+Spinal cord (dorsal horn),Mixed dorsal-horn neurons + glia,Spinal cord,Lumbar dorsal horn
+BV-2,Murine microglial cell line,Spinal cord,C57BL/6 microglia
+TG (whole),Trigeminal ganglion neurons,Trigeminal ganglion,Trigeminal ganglion
+FLS,Fibroblast-like synoviocytes,Synovium,Synovial membrane
+Ankle joint (whole),Mixed joint tissue,Ankle joint,Ankle joint capsule + cartilage
+HEKa,Human epidermal keratinocytes (adult),Skin,Adult epidermis
+Skin (whole),Mixed skin tissue (epidermis + dermis),Skin,Plantar / glabrous skin
+ACC (whole),Anterior cingulate cortex tissue,Brain,Anterior cingulate cortex
+PAG (whole),Periaqueductal grey tissue,Brain,Periaqueductal grey

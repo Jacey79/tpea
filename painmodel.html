@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pain model &middot; TPEA</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container">
+  <div class="page-head">
+    <p class="sub" style="margin-bottom:6px"><a href="browse.html">&laquo; Back to Browse</a></p>
+    <h1 id="pm-title">&hellip;</h1>
+    <p class="sub" id="pm-sub"></p>
+  </div>
+  <hr class="hr-decor">
+
+  <!-- Description card -->
+  <div class="detail-card">
+    <h3>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+      Description
+    </h3>
+    <p id="pm-desc" style="color: var(--c-slate); line-height: 1.85; font-size: 18px"></p>
+
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px">
+      <div>
+        <div style="font-size: 13.2px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--c-mute); margin-bottom: 6px; font-weight: 600">Species</div>
+        <div id="pm-species"></div>
+      </div>
+      <div>
+        <div style="font-size: 13.2px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--c-mute); margin-bottom: 6px; font-weight: 600">Category</div>
+        <div id="pm-cat"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Seminal reference -->
+  <div class="detail-card">
+    <h3>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      Seminal reference
+    </h3>
+    <p id="pm-ref" style="font-size: 16.8px; color: var(--c-ink-soft); margin: 0; line-height: 1.7"></p>
+    <p id="pm-pmid" style="margin-top: 10px; font-size: 15.6px"></p>
+  </div>
+
+  <!-- Associated entries -->
+  <div class="detail-card">
+    <h3>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+      Associated TPEA entries
+      <span class="chip chip-red" id="pm-entry-count" style="margin-left: auto">0</span>
+    </h3>
+    <div id="pm-entries">
+      <p style="color: var(--c-mute); font-style: italic; text-align: center; padding: 20px 0">No entries associated with this pain model.</p>
+    </div>
+    <div class="pager" id="pm-pager" style="display:none"></div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/layout.js"></script>
+<script>
+(async () => {
+TPEA_LAYOUT.mount();
+await window.TPEA_DATA_READY;
+const D = window.TPEA_DATA;
+const U = window.TPEA_UTIL;
+
+const subId = U.getQueryParam('id');
+const model = D.painModels.find(m => m.sub === subId) || D.painModels[0];
+
+if (!model) {
+  U.qs('.container').innerHTML = `<div class="detail-card"><h3>Pain model not found</h3><p><a href="browse.html">Return to Browse &raquo;</a></p></div>`;
+} else {
+  U.qs('#pm-title').textContent = `${model.sub} \u00b7 ${model.fullName}`;
+  U.qs('#pm-sub').textContent = model.category;
+  U.qs('#pm-desc').textContent = model.desc;
+  U.qs('#pm-species').innerHTML = model.species.map(s => `<span class="chip" style="margin-right:6px">${s}</span>`).join('');
+  U.qs('#pm-cat').innerHTML = `<a href="browse.html?cat=${encodeURIComponent(model.category)}" class="chip chip-red" style="text-decoration:none">${U.esc(model.category)}</a>`;
+  U.qs('#pm-ref').textContent = model.reference;
+  if (model.pmid) {
+    U.qs('#pm-pmid').innerHTML = `PubMed: ${U.pmidLink(model.pmid)}`;
+  }
+
+  const related = D.records.filter(r => r.model_sub === model.sub);
+  U.qs('#pm-entry-count').textContent = related.length;
+
+  const PER_PAGE = 10;
+  let page = 1;
+
+  function render() {
+    if (!related.length) return;
+    const total = related.length;
+    const pages = Math.max(1, Math.ceil(total / PER_PAGE));
+    if (page > pages) page = pages;
+    const from = (page - 1) * PER_PAGE;
+    const to = Math.min(from + PER_PAGE, total);
+    const slice = related.slice(from, to);
+
+    U.qs('#pm-entries').innerHTML = `
+      <div class="table-wrap">
+        <div style="overflow-x:auto">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th data-tip="Unique TPEA entry identifier">TPEA ID</th>
+                <th data-tip="Approved gene symbol">Gene</th>
+                <th data-tip="Ensembl gene stable ID">Ensembl ID</th>
+                <th data-tip="Species">Species</th>
+                <th data-tip="Tissue or cell type">Tissue</th>
+                <th data-tip="Validated perturbation evidence count (highest tier)" style="text-align:center">VP</th>
+                <th data-tip="Validated differential expression evidence count" style="text-align:center">VDE</th>
+                <th data-tip="HTP evidence count" style="text-align:center">HTP</th>
+                <th data-tip="Sum of all evidence counts" style="text-align:center">Confidence</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${slice.map(r => `
+                <tr>
+                  <td class="tid"><a href="entry.html?id=${r.tpea_id}">${r.tpea_id}</a></td>
+                  <td class="gene"><strong>${U.esc(r.gene)}</strong></td>
+                  <td>${U.ensemblLink(r.ensembl)}</td>
+                  <td>${U.esc(D.speciesSci(r.organism))}</td>
+                  <td>${U.esc(r.tissue)}</td>
+                  <td style="text-align:center">${U.evNum(r.pert, `entry.html?id=${r.tpea_id}#pert`)}</td>
+                  <td style="text-align:center">${U.evNum(r.expr, `entry.html?id=${r.tpea_id}#expr`)}</td>
+                  <td style="text-align:center">${U.evNum(r.seq,  `entry.html?id=${r.tpea_id}#seq`)}</td>
+                  <td style="text-align:center">${U.evNum(r.confidence, `entry.html?id=${r.tpea_id}`)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+    const pgr = U.qs('#pm-pager');
+    pgr.style.display = total > PER_PAGE ? 'flex' : 'none';
+    if (total > PER_PAGE) U.renderPager(pgr, page, pages, total, p => { page = p; render(); });
+  }
+  render();
+}
+})();
+</script>
+</body>
+</html>

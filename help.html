@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Help &middot; TPEA</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .doc h2 {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-style: italic;
+    font-size: 1.86rem;
+    color: var(--c-navy);
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--c-line);
+    margin-top: 42px;
+    margin-bottom: 18px;
+    scroll-margin-top: 96px;
+  }
+  .doc h3 {
+    font-family: var(--f-body);
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--c-navy);
+    margin-top: 22px;
+    margin-bottom: 10px;
+  }
+  .doc p { color: var(--c-slate); line-height: 1.8; font-size: 17.4px; }
+  .doc table.ref {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 14px;
+    font-size: 16.2px;
+  }
+  .doc table.ref th {
+    background: var(--c-cream);
+    color: var(--c-navy);
+    text-align: center;
+    padding: 10px 14px;
+    border: 1px solid var(--c-line);
+    font-weight: 700;
+  }
+  .doc table.ref td {
+    padding: 10px 14px;
+    border: 1px solid var(--c-line);
+    background: var(--c-white);
+    color: var(--c-ink);
+    vertical-align: middle;
+    text-align: center;
+  }
+  .doc table-wrap-ref { overflow-x: auto; }
+  .doc table.ref td a { color: var(--c-red); font-family: var(--f-mono); font-size: 15px; }
+  .help-layout { display: grid; grid-template-columns: 240px 1fr; gap: 36px; }
+  .help-toc {
+    position: sticky;
+    top: 96px;
+    align-self: start;
+    background: var(--c-white);
+    border: 1px solid var(--c-line-soft);
+    border-radius: 10px;
+    padding: 20px 8px 18px 8px;
+    box-shadow: 0 4px 14px rgba(49,58,91,0.05);
+  }
+  .help-toc h4 {
+    font-size: 13.2px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--c-mute);
+    margin: 0 0 14px 18px;
+    font-weight: 800;
+  }
+  .help-toc a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 16px 9px 18px;
+    color: var(--c-ink);
+    font-size: 16.2px;
+    border-left: 3px solid transparent;
+    text-decoration: none;
+    margin-bottom: 1px;
+    font-weight: 500;
+    border-radius: 0 6px 6px 0;
+    transition: all var(--transition);
+  }
+  .help-toc a::before {
+    content: '';
+    display: block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--c-line);
+    flex-shrink: 0;
+    transition: background var(--transition);
+  }
+  .help-toc a:hover {
+    color: var(--c-navy);
+    background: var(--c-cream);
+    border-left-color: var(--c-red);
+  }
+  .help-toc a:hover::before { background: var(--c-red); }
+  .help-toc a.active {
+    color: var(--c-navy);
+    background: var(--c-cream);
+    border-left-color: var(--c-red);
+    font-weight: 700;
+  }
+  .help-toc a.active::before { background: var(--c-red); }
+  @media (max-width: 900px) { .help-layout { grid-template-columns: 1fr; } .help-toc { position: static; } }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="page-head">
+    <h1>Help &amp; Documentation</h1>
+    <p class="sub">How to use TPEA, the data sources, pain-model encyclopedia, and field dictionary.</p>
+  </div>
+  <hr class="hr-decor">
+
+  <div class="help-layout">
+    <aside class="help-toc">
+      <h4>Contents</h4>
+      <a href="#intro">Introduction</a>
+      <a href="#sources">Data sources</a>
+      <a href="#tools">Tools used</a>
+      <a href="#pain-models">Pain models</a>
+      <a href="#pain-types">Pain types</a>
+      <a href="#fields">Field dictionary</a>
+      <a href="#faq">FAQ</a>
+    </aside>
+
+    <main class="doc">
+      <section>
+        <h2 id="intro">Introduction to TPEA</h2>
+        <p>Pain is a complex sensory experience shaped by injury, inflammation, and nervous-system plasticity across peripheral and central sites. Understanding the molecular basis of pain requires integrating evidence from high-throughput transcriptomics, targeted wet-lab validation, and functional perturbation studies. Each of these illuminates a different facet of how genes contribute to pain.</p>
+        <p>TPEA (The Pain Expression Atlas) is a comprehensive resource integrating <strong>13,922</strong> pain-associated gene records, curated across <strong>7 pain-model categories</strong>, <strong>17 pain-model sub-categories</strong>, and <strong>4 species groups</strong>. Each record is annotated with three independent lines of evidence (Validated perturbation, Validated differential expression, and High-throughput profiling) and summarized by a unified Confidence score. Rich pain-model descriptions, seminal references, and cross-linked filters let users navigate from gene to pain model to tissue to evidence in a single session.</p>
+      </section>
+
+      <section>
+        <h2 id="sources">Data sources and used tools</h2>
+
+        <h3>1) Reference genome versions used in TPEA</h3>
+        <table class="ref">
+          <thead><tr><th>Species</th><th>Reference genome version</th></tr></thead>
+          <tbody>
+            <tr><td>Homo sapiens</td><td>GRCh38 (hg38)</td></tr>
+            <tr><td>Mus musculus</td><td>GRCm39 (mm39)</td></tr>
+            <tr><td>Rattus norvegicus</td><td>mRatBN7.2 (rn7)</td></tr>
+          </tbody>
+        </table>
+
+        <h3>2) Data resources used in TPEA</h3>
+        <table class="ref">
+          <thead>
+            <tr>
+              <th>Data type</th><th>Resource</th><th>Description</th><th>URL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td rowspan="2">High-throughput profiling</td>
+              <td>GEO</td><td>Transcriptomic data for pain-model vs. control differential analysis</td>
+              <td><a href="https://www.ncbi.nlm.nih.gov/geo/" target="_blank" rel="noopener">ncbi.nlm.nih.gov/geo</a></td>
+            </tr>
+            <tr>
+              <td>SRA</td><td>Raw sequencing reads for re-analysis</td>
+              <td><a href="https://www.ncbi.nlm.nih.gov/sra" target="_blank" rel="noopener">ncbi.nlm.nih.gov/sra</a></td>
+            </tr>
+            <tr>
+              <td>Validated differential expression</td><td>PubMed</td>
+              <td>Wet-lab validation (qPCR, Western, IHC, IF) curated from literature</td>
+              <td><a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" rel="noopener">pubmed.ncbi.nlm.nih.gov</a></td>
+            </tr>
+            <tr>
+              <td>Validated perturbation</td><td>PubMed / MGI</td>
+              <td>Functional KO/KD/OE/pharmacology with pain-behavior outcome</td>
+              <td><a href="https://www.informatics.jax.org/" target="_blank" rel="noopener">informatics.jax.org</a></td>
+            </tr>
+            <tr>
+              <td rowspan="2">Gene annotation</td>
+              <td>Ensembl</td><td>Gene ID, Ensembl stable ID, cross-species orthology</td>
+              <td><a href="https://www.ensembl.org/" target="_blank" rel="noopener">ensembl.org</a></td>
+            </tr>
+            <tr>
+              <td>NCBI Gene</td><td>Gene symbol, synonyms, description</td>
+              <td><a href="https://www.ncbi.nlm.nih.gov/gene" target="_blank" rel="noopener">ncbi.nlm.nih.gov/gene</a></td>
+            </tr>
+            <tr>
+              <td>Pathway annotation</td><td>KEGG, Reactome, WikiPathways</td>
+              <td>Gene-pathway mapping for enrichment</td>
+              <td>n/a</td>
+            </tr>
+            <tr>
+              <td>Pain model taxonomy</td><td>IASP, IMMPACT curation</td>
+              <td>Standardized pain-model definitions and behavioral assays</td>
+              <td><a href="https://www.iasp-pain.org/" target="_blank" rel="noopener">iasp-pain.org</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2 id="tools">Analysis tools</h2>
+        <table class="ref">
+          <thead><tr><th>Purpose</th><th>Tool</th><th>Version</th><th>Reference</th></tr></thead>
+          <tbody>
+            <tr><td>RNA-seq alignment</td><td>STAR</td><td>2.7.11b</td><td>Dobin A. et al. Bioinformatics. 2013.</td></tr>
+            <tr><td>Transcript quantification</td><td>Salmon</td><td>1.10</td><td>Patro R. et al. Nat Methods. 2017.</td></tr>
+            <tr><td>Differential expression</td><td>DESeq2</td><td>1.44</td><td>Love MI. et al. Genome Biol. 2014.</td></tr>
+            <tr><td>Annotation harmonization</td><td>biomaRt</td><td>2.58</td><td>Durinck S. et al. Bioinformatics. 2005.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2 id="pain-models">Pain model encyclopedia</h2>
+        <p>TPEA organizes pain models into a two-tier hierarchy. The table below lists all included sub-categories; click each row's ID to open the full pain-model detail page.</p>
+        <table class="ref" id="pm-table">
+          <thead>
+            <tr><th>Sub-category</th><th>Full name</th><th>Category</th><th>Species</th><th>Ref. PMID</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2 id="pain-types">Pain types &amp; assessment methods</h2>
+        <table class="ref" id="pt-table">
+          <thead><tr><th>Pain type</th><th>Assessment</th><th>Description</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2 id="fields">Field dictionary</h2>
+        <table class="ref">
+          <thead><tr><th>Field</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td class="text-mono"><strong>TPEA ID</strong></td><td>Unique identifier for each TPEA entry. Combines a gene, species, tissue, and pain-model context into a single primary key (e.g. <code>TPEA_00001</code>).</td></tr>
+            <tr><td class="text-mono"><strong>Gene symbol</strong></td><td>HGNC / MGI / RGD approved gene symbol.</td></tr>
+            <tr><td class="text-mono"><strong>Ensembl ID</strong></td><td>Ensembl gene stable ID (ENSG / ENSMUSG / ENSRNOG prefix).</td></tr>
+            <tr><td class="text-mono"><strong>Species</strong></td><td>Species grouping: Human, Mouse, Rat, or Others.</td></tr>
+            <tr><td class="text-mono"><strong>Source</strong></td><td>Tissue or cell line from which evidence was derived.</td></tr>
+            <tr><td class="text-mono"><strong>Pain model category</strong></td><td>Broad class of pain model (7 total, e.g. Neuropathic Pain Models).</td></tr>
+            <tr><td class="text-mono"><strong>Pain model sub-category</strong></td><td>Specific paradigm (e.g. CCI, SNI, CFA).</td></tr>
+            <tr><td class="text-mono"><strong>High-throughput profiling</strong></td><td>Number of supporting high-throughput profiling datasets (bulk RNA-seq, miRNA-seq, microarray) reporting differential expression of this gene in this context. Discovery-tier evidence.</td></tr>
+            <tr><td class="text-mono"><strong>Validated differential expression</strong></td><td>Number of supporting hypothesis-driven differential-expression studies (qPCR / Western / IHC / IF / ELISA) documented in the literature. Mid-tier evidence.</td></tr>
+            <tr><td class="text-mono"><strong>Validated perturbation</strong></td><td>Number of supporting perturbation studies (KO, cKO, siRNA, AAV-shRNA, overexpression, pharmacology, antibody neutralization) reporting a measurable change in pain behavior or sensitivity. Highest-tier (causal) evidence.</td></tr>
+            <tr><td class="text-mono"><strong>Confidence score</strong></td><td>Sum of Validated perturbation + Validated differential expression + High-throughput profiling evidence counts. Higher score indicates stronger and more diverse evidence of pain association.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2 id="faq">FAQ</h2>
+        <h3>Can I download the full dataset?</h3>
+        <p>Yes. See the <a href="download.html">Download</a> page. All data are packaged as zip archives of tab-separated files.</p>
+        <h3>Can I cite TPEA in my publication?</h3>
+        <p>Yes. Please see the <a href="citation.html">Citation</a> page for the current recommended citation and BibTeX.</p>
+        <h3>How is the Confidence score calculated?</h3>
+        <p>Confidence score = Validated perturbation count + Validated differential expression count + High-throughput profiling count. It is a simple additive summary rather than a weighted statistic, so two entries with the same score may have very different underlying evidence distributions. Always inspect the per-tier counts for downstream prioritization.</p>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/layout.js"></script>
+<script>
+(async () => {
+TPEA_LAYOUT.mount();
+await window.TPEA_DATA_READY;
+const D = window.TPEA_DATA;
+const U = window.TPEA_UTIL;
+
+/* Pain models encyclopedia */
+U.qs('#pm-table tbody').innerHTML = D.painModels.map(m => `
+  <tr>
+    <td><a href="painmodel.html?id=${encodeURIComponent(m.sub)}"><strong>${U.esc(m.sub)}</strong></a></td>
+    <td>${U.esc(m.fullName)}</td>
+    <td>${U.esc(m.category)}</td>
+    <td>${m.species.join(', ')}</td>
+    <td>${m.pmid ? U.pmidLink(m.pmid) : 'n/a'}</td>
+  </tr>
+`).join('');
+
+/* Pain types dictionary */
+U.qs('#pt-table tbody').innerHTML = D.painTypes.map(p => `
+  <tr>
+    <td><strong>${U.esc(p.type)}</strong></td>
+    <td>${U.esc(p.assessment)}</td>
+    <td>${U.esc(p.desc)}</td>
+  </tr>
+`).join('');
+
+/* TOC scrollspy */
+(function () {
+  const tocLinks = U.qsa('.help-toc a');
+  const sections = tocLinks.map(a => {
+    const id = a.getAttribute('href').slice(1);
+    return { link: a, el: document.getElementById(id) };
+  }).filter(x => x.el);
+  function update() {
+    const scrollY = window.scrollY + 130;
+    let active = sections[0];
+    for (const s of sections) {
+      if (s.el.offsetTop <= scrollY) active = s;
+    }
+    tocLinks.forEach(a => a.classList.remove('active'));
+    if (active) active.link.classList.add('active');
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+  tocLinks.forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (el) {
+        e.preventDefault();
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.replaceState(null, '', '#' + id);
+      }
+    });
+  });
+})();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,2 @@
+analysis_id,tpea_id,level,gene,pain_model_category,pain_model_sub,source,organism,expression_assessment,direction,effect,disease,pmid
+TPEA-E-00001-01,TPEA_00001,Expression,TRPV1,Neuropathic Pain Models,CCI,Dorsal root ganglion (DRG),Mus musculus,RT-qPCR,Up,TRPV1 mRNA was significantly upregulated in DRG ipsilateral to CCI vs sham (p<0.01).,Neuropathic pain,29876543

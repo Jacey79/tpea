@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search &middot; TPEA</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  /* Builder UI */
+  .builder-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 18px;
+    background: var(--c-navy);
+    color: var(--c-cream);
+    border-radius: 6px 6px 0 0;
+    font-size: 15.6px;
+  }
+  .builder-toolbar .left { display: flex; align-items: center; gap: 10px; }
+  .builder-toolbar .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--c-seq);
+    display: inline-block;
+  }
+  .builder-rows {
+    background: var(--c-white);
+    border: 1px solid var(--c-line);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    padding: 16px;
+    min-height: 100px;
+  }
+  .builder-row {
+    display: grid;
+    grid-template-columns: 200px 140px 1fr auto;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--c-line-soft);
+  }
+  .builder-row:last-child { border-bottom: none; }
+  .builder-row select, .builder-row input {
+    padding: 8px 12px;
+    border: 1px solid var(--c-line);
+    border-radius: 4px;
+    font-family: var(--f-body);
+    font-size: 15.6px;
+    background: var(--c-white);
+  }
+  .builder-remove {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--c-line);
+    background: var(--c-white);
+    color: var(--c-red);
+    cursor: pointer;
+    display: grid; place-items: center;
+    font-size: 16.8px;
+    transition: all var(--transition);
+  }
+  .builder-remove:hover { background: var(--c-red); color: var(--c-cream); border-color: var(--c-red); }
+  .builder-empty {
+    text-align: center;
+    padding: 24px;
+    color: var(--c-mute);
+    font-style: italic;
+    font-size: 16.8px;
+  }
+  .builder-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+    justify-content: flex-end;
+  }
+  /* Add-builder dropdown stacking — fix from spec: was being covered */
+  .add-builder { position: relative; z-index: 100; }
+  .add-builder-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    background: var(--c-white);
+    border: 1px solid var(--c-line);
+    border-radius: 6px;
+    box-shadow: 0 12px 32px rgba(49,58,91,0.18);
+    min-width: 240px;
+    max-height: 320px;
+    overflow: auto;
+    z-index: 200;       /* sits above panels, table headers, etc. */
+    display: none;
+  }
+  .add-builder-dropdown.open { display: block; }
+  .add-builder-dropdown button {
+    width: 100%;
+    text-align: left;
+    padding: 10px 16px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: var(--f-body);
+    font-size: 15.6px;
+    color: var(--c-ink);
+    transition: background var(--transition);
+  }
+  .add-builder-dropdown button:hover { background: var(--c-cream); color: var(--c-navy); }
+
+  /* Top-N visualization controls */
+  .vis-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    padding: 12px 0 16px;
+    border-bottom: 1px solid var(--c-line-soft);
+    margin-bottom: 16px;
+  }
+  .vis-toolbar label { font-size: 15.6px; color: var(--c-slate); display: flex; align-items: center; gap: 10px; }
+  .vis-toolbar input[type=range] { width: 220px; }
+  .vis-toolbar .topn-val {
+    font-family: var(--f-mono);
+    font-weight: 700;
+    color: var(--c-red);
+    background: var(--c-cream);
+    border-radius: 12px;
+    padding: 2px 12px;
+    min-width: 32px;
+    text-align: center;
+  }
+  .vis-grid { display: grid; grid-template-columns: 1fr; gap: 22px; }
+  .vis-box {
+    background: var(--c-white);
+    border: 1px solid var(--c-line-soft);
+    border-radius: 8px;
+    padding: 18px 20px;
+    position: relative;
+  }
+  .vis-box h4 {
+    margin: 0 0 6px;
+    font-size: 16.8px;
+    font-weight: 700;
+    color: var(--c-navy);
+  }
+  .vis-box .vis-sub { color: var(--c-mute); font-size: 14.4px; margin: 0 0 14px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="page-head">
+    <h1>Search</h1>
+    <p class="sub">Build a multi-field query to filter the atlas. Add as many conditions as you need.</p>
+  </div>
+  <hr class="hr-decor">
+
+  <!-- Region 1: Search builder -->
+  <section class="panel" style="overflow: visible">
+    <div class="panel-banner">
+      <span class="icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
+      Search builder
+    </div>
+    <div class="panel-body" style="overflow: visible">
+      <div class="builder-toolbar">
+        <div class="left"><span class="dot"></span> Query conditions</div>
+        <button class="btn btn-sm btn-ghost" style="background: rgba(238,233,227,0.15); color: var(--c-cream); border-color: rgba(238,233,227,0.3);" id="reset-builder">Reset</button>
+      </div>
+      <div class="builder-rows" id="builder-rows">
+        <div class="builder-empty">Please add at least one builder to start</div>
+      </div>
+
+      <div class="builder-actions">
+        <div class="add-builder">
+          <button class="btn" id="add-builder-btn">+ Add New Builder</button>
+          <div class="add-builder-dropdown" id="add-builder-dropdown"></div>
+        </div>
+        <button class="btn btn-red" id="run-search">
+          <svg class="glass-icon" viewBox="0 0 24 24" width="14" height="14"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <span>Search</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Region 2: Search result -->
+  <section class="panel" id="result-panel" style="display:none">
+    <div class="panel-banner">
+      <span class="icon"><svg viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></span>
+      Search result
+    </div>
+    <div class="panel-body">
+
+      <!-- Top-N gene visualization (downloadable) -->
+      <div class="vis-box" id="vis-box" style="margin-bottom: 22px">
+        <div style="display:flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; margin-bottom: 6px">
+          <div>
+            <h4>Gene visualization</h4>
+            <p class="vis-sub">Top N genes by Confidence score, with a per-evidence-tier heatmap.</p>
+          </div>
+          <button class="btn btn-sm btn-ghost" id="dl-vis">&darr; Download PDF</button>
+        </div>
+        <div class="vis-toolbar">
+          <label>Top N: <input type="range" id="topn" min="3" max="20" value="10"> <span class="topn-val" id="topn-val">10</span></label>
+          <span style="font-size: 14.4px; color: var(--c-mute)">(showing genes ranked by Confidence)</span>
+        </div>
+        <div class="vis-grid">
+          <div>
+            <h4 style="margin: 0 0 4px; font-size: 15.6px">Confidence score</h4>
+            <p class="vis-sub" style="margin: 0 0 10px">Total evidence tiers per gene, sorted descending</p>
+            <svg id="conf-bar" viewBox="0 0 760 360" preserveAspectRatio="xMidYMid meet" style="width:100%; height: auto"></svg>
+          </div>
+          <div>
+            <h4 style="margin: 0 0 4px; font-size: 15.6px">Evidence heatmap</h4>
+            <p class="vis-sub" style="margin: 0 0 10px">Evidence count per gene by evidence type</p>
+            <svg id="conf-heat" viewBox="0 0 760 320" preserveAspectRatio="xMidYMid meet" style="width:100%; height: auto"></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results table -->
+      <div class="table-wrap">
+        <div class="table-toolbar">
+          <div class="table-toolbar-info">Showing <strong id="s-from">0</strong>&ndash;<strong id="s-to">0</strong> of <strong id="s-total">0</strong> records matching your query</div>
+          <div class="table-toolbar-actions">
+            <button class="btn btn-sm btn-ghost" id="s-export">&darr; Export CSV</button>
+          </div>
+        </div>
+        <div style="overflow-x: auto">
+          <table class="data-table" id="s-table">
+            <thead>
+              <tr>
+                <th class="sortable" data-sort="tpea_id" data-tip="Unique TPEA entry identifier">TPEA ID</th>
+                <th class="sortable" data-sort="gene" data-tip="Approved gene symbol">Gene symbol</th>
+                <th data-tip="Ensembl gene stable ID">Ensembl ID</th>
+                <th class="sortable" data-sort="model_cat" data-tip="Broad pain-model class">Pain model category</th>
+                <th class="sortable" data-sort="model_sub" data-tip="Specific pain-model paradigm">Pain model sub-category</th>
+                <th class="sortable" data-sort="organism" data-tip="Species">Species</th>
+                <th class="sortable" data-sort="tissue" data-tip="Tissue or cell type">Source</th>
+                <th class="sortable" data-sort="pert" data-tip="Supporting perturbation studies (highest tier)" style="text-align:center">VP</th>
+                <th class="sortable" data-sort="expr" data-tip="Supporting validated differential-expression studies (mid tier)" style="text-align:center">VDE</th>
+                <th class="sortable" data-sort="seq" data-tip="Supporting high-throughput sequencing datasets (discovery tier)" style="text-align:center">HTP</th>
+                <th class="sortable" data-sort="confidence" data-tip="Sum of all three evidence-tier counts: Validated perturbation + Validated differential expression + HTP" style="text-align:center">Confidence score</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="pager" id="s-pager"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/layout.js"></script>
+<script>
+(async () => {
+TPEA_LAYOUT.mount();
+await window.TPEA_DATA_READY;
+const D = window.TPEA_DATA;
+const U = window.TPEA_UTIL;
+
+/* Builder field definitions */
+const FIELDS = [
+  { key: 'tpea_id',   label: 'TPEA ID',                 type: 'text',   placeholder: 'e.g. TPEA_00001' },
+  { key: 'gene',      label: 'Gene symbol',             type: 'text',   placeholder: 'e.g. TRPV1' },
+  { key: 'ensembl',   label: 'Ensembl ID',              type: 'text',   placeholder: 'e.g. ENSG00000196689' },
+  { key: 'organism',  label: 'Species',                 type: 'select', options: [...D.speciesSciList].sort() },
+  { key: 'tissue',    label: 'Source',       type: 'select', options: [...D.tissues].sort() },
+  { key: 'model_cat', label: 'Pain model category',     type: 'select', options: [...D.painCategories].sort() },
+  { key: 'model_sub', label: 'Pain model sub-category', type: 'select', options: D.painModels.map(m => m.sub).sort() },
+  { key: 'pain_type', label: 'Pain type',               type: 'select', options: [...new Set(D.painTypes.map(p => p.type))].sort() },
+  { key: 'pain_assessment', label: 'Pain assessment',   type: 'select', options: D.painTypes.map(p => p.assessment).sort() },
+];
+
+const OPERATORS = {
+  text:   [{v:'eq', l:'equals'}, {v:'contains', l:'contains'}, {v:'starts', l:'starts with'}],
+  select: [{v:'eq', l:'is'}, {v:'ne', l:'is not'}],
+};
+
+let builder = [];
+let nextId = 1;
+
+function renderBuilder() {
+  const host = U.qs('#builder-rows');
+  if (!builder.length) {
+    host.innerHTML = `<div class="builder-empty">Please add at least one builder to start</div>`;
+    return;
+  }
+  host.innerHTML = builder.map(row => {
+    const field = FIELDS.find(f => f.key === row.key);
+    const ops = OPERATORS[field.type] || OPERATORS.text;
+    let valueHTML;
+    if (field.type === 'select') {
+      valueHTML = `<select data-id="${row.id}" data-role="value">
+        <option value="">(select)</option>
+        ${field.options.map(o => `<option ${row.value === o ? 'selected' : ''}>${U.esc(o)}</option>`).join('')}
+      </select>`;
+    } else {
+      valueHTML = `<input type="text" data-id="${row.id}" data-role="value" value="${U.esc(row.value || '')}" placeholder="${U.esc(field.placeholder || '')}">`;
+    }
+    return `
+      <div class="builder-row">
+        <div><strong style="color:var(--c-navy)">${U.esc(field.label)}</strong></div>
+        <select data-id="${row.id}" data-role="op">
+          ${ops.map(o => `<option value="${o.v}" ${row.op === o.v ? 'selected' : ''}>${o.l}</option>`).join('')}
+        </select>
+        ${valueHTML}
+        <button class="builder-remove" data-id="${row.id}" data-role="remove" title="Remove">&times;</button>
+      </div>
+    `;
+  }).join('');
+
+  U.qsa('[data-role="op"]', host).forEach(el => el.addEventListener('change', e => {
+    const r = builder.find(x => x.id == e.target.dataset.id);
+    if (r) r.op = e.target.value;
+  }));
+  U.qsa('[data-role="value"]', host).forEach(el => el.addEventListener('input', e => {
+    const r = builder.find(x => x.id == e.target.dataset.id);
+    if (r) r.value = e.target.value;
+  }));
+  U.qsa('[data-role="remove"]', host).forEach(el => el.addEventListener('click', e => {
+    const id = Number(e.target.dataset.id);
+    builder = builder.filter(x => x.id !== id);
+    renderBuilder();
+  }));
+}
+
+const addBtn = U.qs('#add-builder-btn');
+const addDD = U.qs('#add-builder-dropdown');
+addDD.innerHTML = FIELDS.map(f => `<button data-key="${f.key}">${U.esc(f.label)}</button>`).join('');
+addBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  addDD.classList.toggle('open');
+});
+document.addEventListener('click', () => addDD.classList.remove('open'));
+addDD.addEventListener('click', e => {
+  const btn = e.target.closest('button[data-key]');
+  if (!btn) return;
+  const f = FIELDS.find(x => x.key === btn.dataset.key);
+  builder.push({
+    id: nextId++,
+    key: f.key,
+    op: (OPERATORS[f.type] || OPERATORS.text)[0].v,
+    value: '',
+  });
+  addDD.classList.remove('open');
+  renderBuilder();
+});
+
+U.qs('#reset-builder').addEventListener('click', () => {
+  builder = [];
+  renderBuilder();
+  U.qs('#result-panel').style.display = 'none';
+});
+
+/* Quick-search entry: populate from URL params */
+(function initFromQuery() {
+  const qMap = { gene: 'gene', tpea: 'tpea_id', ensembl: 'ensembl', tissue: 'tissue', model: 'model_sub', organism: 'organism' };
+  let any = false;
+  Object.keys(qMap).forEach(p => {
+    const v = U.getQueryParam(p);
+    if (!v) return;
+    const f = FIELDS.find(x => x.key === qMap[p]);
+    if (!f) return;
+    builder.push({ id: nextId++, key: f.key, op: f.type === 'select' ? 'eq' : 'contains', value: v });
+    any = true;
+  });
+  if (any) {
+    renderBuilder();
+    setTimeout(runSearch, 60);
+  }
+})();
+
+/* Run search */
+const RSTATE = { page: 1, perPage: 10, sortKey: 'confidence', sortDir: 'desc', rows: [] };
+
+function matches(rec, row) {
+  const v = (row.value || '').toString().trim().toLowerCase();
+  if (!v) return true;
+  if (row.key === 'pain_type' || row.key === 'pain_assessment') return true;
+  // Species filter: use the Latin scientific name for comparison so the dropdown's
+  // Latin-name options match the records.
+  let recVal;
+  if (row.key === 'organism') {
+    recVal = String(rec.organism_sci || D.speciesSci(rec.organism) || rec.organism || '').toLowerCase();
+  } else {
+    recVal = String(rec[row.key] || '').toLowerCase();
+  }
+  switch (row.op) {
+    case 'eq':       return recVal === v;
+    case 'ne':       return recVal !== v;
+    case 'contains': return recVal.includes(v);
+    case 'starts':   return recVal.startsWith(v);
+    default: return true;
+  }
+}
+
+function runSearch() {
+  const rows = D.records.filter(r => builder.every(b => matches(r, b)));
+  RSTATE.rows = rows;
+  RSTATE.page = 1;
+  U.qs('#result-panel').style.display = 'block';
+  renderResults();
+  renderTopN();
+}
+
+function renderResults() {
+  const rows = [...RSTATE.rows].sort((a, b) => {
+    const k = RSTATE.sortKey;
+    const va = a[k], vb = b[k];
+    const cmp = typeof va === 'number' ? va - vb : String(va).localeCompare(String(vb));
+    return RSTATE.sortDir === 'asc' ? cmp : -cmp;
+  });
+  const total = rows.length;
+  const pages = Math.max(1, Math.ceil(total / RSTATE.perPage));
+  if (RSTATE.page > pages) RSTATE.page = 1;
+  const from = (RSTATE.page - 1) * RSTATE.perPage;
+  const to = Math.min(from + RSTATE.perPage, total);
+  const slice = rows.slice(from, to);
+
+  U.qs('#s-from').textContent = total ? from + 1 : 0;
+  U.qs('#s-to').textContent = to;
+  U.qs('#s-total').textContent = total;
+
+  const tbody = U.qs('#s-table tbody');
+  if (!slice.length) {
+    tbody.innerHTML = `<tr><td colspan="11" style="text-align:center;padding:40px;color:var(--c-mute)">No records match your query.</td></tr>`;
+  } else {
+    tbody.innerHTML = slice.map(r => `
+      <tr>
+        <td class="tid"><a href="entry.html?id=${r.tpea_id}">${r.tpea_id}</a></td>
+        <td class="gene"><a href="search.html?gene=${encodeURIComponent(r.gene)}">${U.esc(r.gene)}</a></td>
+        <td>${U.ensemblLink(r.ensembl)}</td>
+        <td>${U.esc(r.model_cat)}</td>
+        <td><a href="painmodel.html?id=${encodeURIComponent(r.model_sub)}">${U.esc(r.model_sub)}</a></td>
+        <td>${U.esc(D.speciesSci(r.organism))}</td>
+        <td>${U.esc(r.tissue)}</td>
+        <td style="text-align:center">${U.evNum(r.pert, `entry.html?id=${r.tpea_id}#pert`)}</td>
+        <td style="text-align:center">${U.evNum(r.expr, `entry.html?id=${r.tpea_id}#expr`)}</td>
+        <td style="text-align:center">${U.evNum(r.seq,  `entry.html?id=${r.tpea_id}#seq`)}</td>
+        <td style="text-align:center">${U.evNum(r.confidence, `entry.html?id=${r.tpea_id}`)}</td>
+      </tr>
+    `).join('');
+  }
+
+  U.qsa('#s-table thead th.sortable').forEach(th => {
+    th.classList.remove('sort-asc', 'sort-desc');
+    if (th.dataset.sort === RSTATE.sortKey) th.classList.add(RSTATE.sortDir === 'asc' ? 'sort-asc' : 'sort-desc');
+  });
+  U.renderPager(
+    U.qs('#s-pager'),
+    RSTATE.page,
+    pages,
+    total,
+    p => { RSTATE.page = p; renderResults(); },
+    sz => { RSTATE.perPage = sz; RSTATE.page = 1; renderResults(); }
+  );
+}
+
+/* ====== Top-N gene visualization ====== */
+const COLORS = D.evidenceColors; // { seq, expr, pert }
+
+function topNGenes(n) {
+  // aggregate evidence counts per unique gene across results
+  const map = new Map();
+  RSTATE.rows.forEach(r => {
+    const g = r.gene;
+    const cur = map.get(g) || { gene: g, seq: 0, expr: 0, pert: 0, confidence: 0 };
+    cur.seq += r.seq;
+    cur.expr += r.expr;
+    cur.pert += r.pert;
+    cur.confidence += r.confidence;
+    map.set(g, cur);
+  });
+  return [...map.values()]
+    .sort((a, b) => b.confidence - a.confidence)
+    .slice(0, n);
+}
+
+function renderConfBar(genes) {
+  const svg = U.qs('#conf-bar');
+  svg.innerHTML = '';
+  const W = 760, H = 360;
+  const ml = 90, mr = 20, mt = 30, mb = 40;
+  const innerW = W - ml - mr, innerH = H - mt - mb;
+  const maxConf = Math.max(1, ...genes.map(g => g.confidence));
+  const bandH = innerH / Math.max(1, genes.length);
+
+  // axis
+  const axis = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  for (let i = 0; i <= 4; i++) {
+    const x = ml + (innerW * i) / 4;
+    const v = Math.round((maxConf * i) / 4);
+    axis.insertAdjacentHTML('beforeend',
+      `<line x1="${x}" x2="${x}" y1="${mt}" y2="${mt+innerH}" stroke="#e5e1dc" stroke-width="1"/>` +
+      `<text x="${x}" y="${mt+innerH+18}" font-size="11" text-anchor="middle" fill="#7c7568">${v}</text>`
+    );
+  }
+  svg.appendChild(axis);
+
+  // Top legend — full names (no separate footnote needed)
+  const lg = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  const items = [
+    { lbl: 'Validated perturbation',            c: COLORS.pert },
+    { lbl: 'Validated differential expression', c: COLORS.expr },
+    { lbl: 'High-throughput profiling',         c: COLORS.seq  },
+  ];
+  let lx = ml;
+  items.forEach(it => {
+    lg.insertAdjacentHTML('beforeend',
+      `<rect x="${lx}" y="10" width="12" height="12" fill="${it.c}"/>` +
+      `<text x="${lx+18}" y="20" font-size="11" font-weight="600" fill="#1f2941">${it.lbl}</text>`
+    );
+    lx += it.lbl.length * 6.6 + 36;
+  });
+  svg.appendChild(lg);
+
+  genes.forEach((g, i) => {
+    const y = mt + i * bandH + 4;
+    const h = Math.max(6, bandH - 8);
+    let x = ml;
+    [['pert', COLORS.pert, 'VP'], ['expr', COLORS.expr, 'VDE'], ['seq', COLORS.seq, 'HTP']].forEach(([key, color, abbr]) => {
+      const w = (g[key] / maxConf) * innerW;
+      if (w > 0) {
+        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rect.setAttribute('x', x); rect.setAttribute('y', y);
+        rect.setAttribute('width', w); rect.setAttribute('height', h);
+        rect.setAttribute('fill', color);
+        rect.insertAdjacentHTML('afterbegin', `<title>${g.gene} \u00b7 ${abbr}: ${g[key]}</title>`);
+        svg.appendChild(rect);
+        x += w;
+      }
+    });
+    svg.insertAdjacentHTML('beforeend',
+      `<text x="${ml-8}" y="${y + h/2 + 4}" font-size="11" text-anchor="end" fill="#1f2941" font-weight="700">${U.esc(g.gene)}</text>`
+    );
+    svg.insertAdjacentHTML('beforeend',
+      `<text x="${ml + (g.confidence/maxConf)*innerW + 6}" y="${y + h/2 + 4}" font-size="10" fill="#56503f">${g.confidence}</text>`
+    );
+  });
+}
+
+function renderConfHeat(genes) {
+  const svg = U.qs('#conf-heat');
+  svg.innerHTML = '';
+  // Add 28px to the height for a footnote
+  const W = 760, baseH = 60 + genes.length * 22, H = Math.max(180, baseH) + 28;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  const ml = 90, mr = 60, mt = 36;
+  const cols    = ['VP',                       'VDE',                       'HTP'];
+  const colFull = ['Validated perturbation', 'Validated differential expression',            'High-throughput profiling'];
+  const colKeys = ['pert',                     'expr',                      'seq'];
+  const innerW = W - ml - mr;
+  const cellW = innerW / cols.length;
+  const cellH = 22;
+
+  const maxV = Math.max(1, ...genes.flatMap(g => colKeys.map(k => g[k])));
+  const greenScale = v => {
+    const t = v / maxV;
+    const r = Math.round(232 - 200 * t);
+    const g = Math.round(245 - 100 * t);
+    const b = Math.round(228 - 180 * t);
+    return `rgb(${r},${g},${b})`;
+  };
+
+  // Column labels — short abbreviations only
+  cols.forEach((c, i) => {
+    const x = ml + i * cellW + cellW/2;
+    svg.insertAdjacentHTML('beforeend',
+      `<text x="${x}" y="${mt-10}" font-size="13" font-weight="700" text-anchor="middle" fill="#1f2941">${c}</text>`
+    );
+  });
+
+  genes.forEach((g, gi) => {
+    const y = mt + gi * cellH;
+    svg.insertAdjacentHTML('beforeend',
+      `<text x="${ml-8}" y="${y + cellH/2 + 4}" font-size="11" text-anchor="end" fill="#1f2941" font-weight="700">${U.esc(g.gene)}</text>`
+    );
+    colKeys.forEach((key, ci) => {
+      const v = g[key];
+      const x = ml + ci * cellW;
+      const fill = v > 0 ? greenScale(v) : '#f6f3ee';
+      svg.insertAdjacentHTML('beforeend',
+        `<rect x="${x+2}" y="${y+2}" width="${cellW-4}" height="${cellH-4}" fill="${fill}" stroke="#e8e3da" rx="2">` +
+        `<title>${g.gene} \u00b7 ${cols[ci]}: ${v}</title></rect>`
+      );
+      svg.insertAdjacentHTML('beforeend',
+        `<text x="${x + cellW/2}" y="${y + cellH/2 + 4}" font-size="11" font-weight="700" text-anchor="middle" fill="${v > maxV*0.55 ? '#fff' : '#1f2941'}">${v}</text>`
+      );
+    });
+  });
+
+  // Footnote: full names of the abbreviations used in the column headers
+  const fy = mt + genes.length * cellH + 22;
+  svg.insertAdjacentHTML('beforeend',
+    `<text x="${ml}" y="${fy}" font-size="10.5" fill="#56503f"><tspan font-weight="700" fill="#1f2941">VP</tspan>: Validated perturbation;&#160;&#160; <tspan font-weight="700" fill="#1f2941">VDE</tspan>: Validated differential expression;&#160;&#160; <tspan font-weight="700" fill="#1f2941">HTP</tspan>: High-throughput profiling</text>`
+  );
+}
+
+function renderTopN() {
+  const n = Number(U.qs('#topn').value);
+  U.qs('#topn-val').textContent = n;
+  const genes = topNGenes(n);
+  if (!genes.length) {
+    U.qs('#vis-box').style.display = 'none';
+    return;
+  }
+  U.qs('#vis-box').style.display = 'block';
+  renderConfBar(genes);
+  renderConfHeat(genes);
+}
+
+U.qs('#topn').addEventListener('input', renderTopN);
+
+U.qs('#dl-vis').addEventListener('click', () => {
+  // Build a composite SVG containing both the bar chart and the heatmap,
+  // then route through the shared PDF helper.
+  const bar = U.qs('#conf-bar'), heat = U.qs('#conf-heat');
+  const cw = 760;
+  const bh = bar.viewBox.baseVal.height, hh = heat.viewBox.baseVal.height;
+  const total = bh + hh + 60;
+  const composite = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${cw} ${total}" width="${cw}" height="${total}">` +
+    `<rect width="100%" height="100%" fill="#fff"/>` +
+    `<text x="20" y="22" font-family="Arial" font-weight="700" font-size="14" fill="#313A5B">Top ${U.qs('#topn').value} genes by Confidence score</text>` +
+    `<g transform="translate(0,30)">${new XMLSerializer().serializeToString(bar).replace(/^<svg[^>]*>|<\/svg>$/g,'')}</g>` +
+    `<g transform="translate(0,${30 + bh + 16})">${new XMLSerializer().serializeToString(heat).replace(/^<svg[^>]*>|<\/svg>$/g,'')}</g>` +
+    `</svg>`;
+  // Inject the composite into a temporary inline SVG element so the helper can read its viewBox.
+  const tmp = document.createElement('div');
+  tmp.style.cssText = 'position:absolute; left:-9999px; top:-9999px';
+  tmp.innerHTML = composite;
+  document.body.appendChild(tmp);
+  const compositeSvg = tmp.querySelector('svg');
+  U.downloadSvgAsPdf(compositeSvg, 'TPEA_top_genes_visualization', {});
+  setTimeout(() => tmp.remove(), 1500);
+});
+
+U.qs('#run-search').addEventListener('click', runSearch);
+U.qs('#s-export').addEventListener('click', () => {
+  U.exportCSV(RSTATE.rows,
+    ['tpea_id','gene','ensembl','organism','tissue','model_cat','model_sub','seq','expr','pert','confidence'],
+    'TPEA_search_results.csv');
+});
+U.qsa('#s-table thead th.sortable').forEach(th => {
+  th.addEventListener('click', () => {
+    const k = th.dataset.sort;
+    if (RSTATE.sortKey === k) RSTATE.sortDir = RSTATE.sortDir === 'asc' ? 'desc' : 'asc';
+    else { RSTATE.sortKey = k; RSTATE.sortDir = 'asc'; }
+    renderResults();
+  });
+});
+
+/* alphabetize all selects on load */
+TPEA_LAYOUT.sortAllSelectOptions();
+})();
+</script>
+</body>
+</html>

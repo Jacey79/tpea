@@ -1,0 +1,164 @@
+tpea_id,gene,ensembl,organism,organism_sci,tissue,model_cat,model_sub,seq,expr,pert,confidence
+TPEA_00001,TRPV1,ENSMUSG00000005952,Mouse,Mus musculus,Dorsal root ganglion (DRG),Neuropathic Pain Models,CCI,3,4,3,10
+TPEA_00002,TRPV1,ENSRNOG00000006543,Rat,Rattus norvegicus,Dorsal root ganglion (DRG),Neuropathic Pain Models,CCI,2,5,4,11
+TPEA_00003,TRPV1,ENSG00000196689,Human,Homo sapiens,Dorsal root ganglion (DRG),Inflammatory Pain Models,CFA,1,2,0,3
+TPEA_00004,TRPA1,ENSMUSG00000032769,Mouse,Mus musculus,Dorsal root ganglion (DRG),Inflammatory Pain Models,Formalin,2,3,3,8
+TPEA_00005,TRPM8,ENSRNOG00000005678,Rat,Rattus norvegicus,Dorsal root ganglion (DRG),Neuropathic Pain Models,CIPN,3,2,2,7
+TPEA_00006,SCN9A,ENSG00000169432,Human,Homo sapiens,Dorsal root ganglion (DRG),Neuropathic Pain Models,DPN,2,3,1,6
+TPEA_00007,SCN10A,ENSMUSG00000034533,Mouse,Mus musculus,Dorsal root ganglion (DRG),Neuropathic Pain Models,SNI,4,3,2,9
+TPEA_00008,P2X4,ENSRNOG00000019287,Rat,Rattus norvegicus,Spinal cord dorsal horn,Neuropathic Pain Models,SNL,2,3,4,9
+TPEA_00009,BDNF,ENSMUSG00000048482,Mouse,Mus musculus,Spinal cord dorsal horn,Neuropathic Pain Models,SNI,3,4,3,10
+TPEA_00010,CGRP,ENSMUSG00000030748,Mouse,Mus musculus,Trigeminal ganglion,Headache,NTG,2,3,4,9
+TPEA_00011,CGRP,ENSRNOG00000017892,Rat,Rattus norvegicus,Trigeminal ganglion,Headache,NTG,1,2,3,6
+TPEA_00012,NGF,ENSMUSG00000027859,Mouse,Mus musculus,Hindpaw skin,Inflammatory Pain Models,CFA,3,4,3,10
+TPEA_00013,CXCL5,ENSMUSG00000029371,Mouse,Mus musculus,Ankle joint,Inflammatory Pain Models,MSU,2,3,2,7
+TPEA_00014,IL1B,ENSMUSG00000027398,Mouse,Mus musculus,Ankle joint,Inflammatory Pain Models,MSU,3,2,1,6
+TPEA_00015,NLRP3,ENSMUSG00000032691,Mouse,Mus musculus,Ankle joint,Inflammatory Pain Models,MSU,2,3,3,8
+TPEA_00016,IL6,ENSMUSG00000025746,Mouse,Mus musculus,Hindpaw skin,Inflammatory Pain Models,CFA,2,4,2,8
+TPEA_00017,TNF,ENSRNOG00000000837,Rat,Rattus norvegicus,Sciatic nerve,Neuropathic Pain Models,CCI,3,4,3,10
+TPEA_00018,CXCL1,ENSMUSG00000029375,Mouse,Mus musculus,Bone marrow,Cancer Pain Models,BCP,2,2,3,7
+TPEA_00019,PIEZO2,ENSMUSG00000041482,Mouse,Mus musculus,Dorsal root ganglion (DRG),Inflammatory Pain Models,Carrageenan,2,2,1,5
+TPEA_00020,ATF3,ENSMUSG00000026628,Mouse,Mus musculus,Dorsal root ganglion (DRG),Neuropathic Pain Models,SNI,5,2,0,7
+TPEA_00021,SPRR1A,ENSMUSG00000050359,Mouse,Mus musculus,Dorsal root ganglion (DRG),Neuropathic Pain Models,SNI,3,1,0,4
+TPEA_00022,GAL,ENSMUSG00000024326,Mouse,Mus musculus,Dorsal root ganglion (DRG),Neuropathic Pain Models,SNI,3,2,1,6
+TPEA_00023,SOX11,ENSMUSG00000063632,Mouse,Mus musculus,Dorsal root ganglion (DRG),Neuropathic Pain Models,SNI,2,2,3,7
+TPEA_00024,GFAP,ENSRNOG00000006514,Rat,Rattus norvegicus,Spinal cord dorsal horn,Neuropathic Pain Models,CCI,3,3,1,7
+TPEA_00025,IBA1,ENSRNOG00000028731,Rat,Rattus norvegicus,Spinal cord dorsal horn,Neuropathic Pain Models,CCI,3,4,2,9
+TPEA_00026,CCL2,ENSMUSG00000035385,Mouse,Mus musculus,Hindpaw skin,Incisional Pain Models,Incisional,2,3,3,8
+TPEA_00027,NOS1,ENSMUSG00000029361,Mouse,Mus musculus,Trigeminal ganglion,Headache,NTG,1,3,2,6
+TPEA_00028,CALCA,ENSG00000110680,Human,Homo sapiens,Trigeminal ganglion,Headache,NTG,2,2,1,5
+TPEA_00029,P2X7,ENSMUSG00000029470,Mouse,Mus musculus,Spinal cord dorsal horn,Neuropathic Pain Models,SNI,2,2,3,7
+TPEA_00030,KCNQ2,ENSMUSG00000016346,Mouse,Mus musculus,Dorsal root ganglion (DRG),Neuropathic Pain Models,CCI,1,1,2,4
+TPEA_00031,MRGPRD,ENSMUSG00000047298,Mouse,Mus musculus,Dorsal root ganglion (DRG),Neuropathic Pain Models,SNI,3,0,1,4
+TPEA_00032,TRPV1,ENSMUSG00000005952,Mouse,Mus musculus,Colon,Visceral Pain Models,IBS,2,3,2,7
+TPEA_00033,TRPA1,ENSMUSG00000032769,Mouse,Mus musculus,Colon,Visceral Pain Models,IBS,2,2,2,6
+TPEA_00034,TRPV1,ENSRNOG00000006543,Rat,Rattus norvegicus,Anterior cingulate cortex,Central Sensitization Models,Capsaicin,2,1,1,4
+TPEA_00035,BDNF,ENSMUSG00000048482,Mouse,Mus musculus,Anterior cingulate cortex,Central Sensitization Models,NMDA,1,2,2,5
+TPEA_00036,CGRP,ENSMUSG00000030748,Mouse,Mus musculus,Anterior cingulate cortex,Headache,CSD,2,2,3,7
+TPEA_00037,KCNQ2,ENSG00000075043,Others,Canis familiaris,Colon,Inflammatory Pain Models,Carrageenan,1,3,1,5
+TPEA_00038,PIEZO2,ENSG00000154864,Human,Homo sapiens,SH-SY5Y cells,Neuropathic Pain Models,CIPN,3,4,3,10
+TPEA_00039,NOS1,ENSRNOG00000019762,Rat,Rattus norvegicus,Spinal cord dorsal horn,Visceral Pain Models,IBS,2,3,0,5
+TPEA_00040,CALCA,ENSMUSG00000030748,Mouse,Mus musculus,Hindpaw skin,Visceral Pain Models,IBS,1,2,2,5
+TPEA_00041,TRPV1,ENSRNOG00000006543,Rat,Rattus norvegicus,Anterior cingulate cortex,Neuropathic Pain Models,DPN,3,1,2,6
+TPEA_00042,NGF,ENSMUSG00000027859,Mouse,Mus musculus,Dorsal root ganglion (DRG),Inflammatory Pain Models,Carrageenan,3,2,1,6
+TPEA_00043,CXCL5,ENSG00000163735,Human,Homo sapiens,Dorsal root ganglion (DRG),Headache,NTG,3,4,1,8
+TPEA_00044,BDNF,ENSG00000176697,Human,Homo sapiens,Ankle joint,Headache,CSD,1,4,0,5
+TPEA_00045,SPRR1A,ENSG00000169474,Others,Canis familiaris,Spinal cord dorsal horn,Inflammatory Pain Models,CFA,1,4,0,5
+TPEA_00046,CXCL5,ENSG00000163735,Others,Canis familiaris,Bone marrow,Inflammatory Pain Models,Carrageenan,3,0,2,5
+TPEA_00047,NGF,ENSRNOG00000008976,Rat,Rattus norvegicus,Anterior cingulate cortex,Inflammatory Pain Models,Formalin,1,4,0,5
+TPEA_00048,NOS1,ENSG00000089250,Human,Homo sapiens,Ankle joint,Inflammatory Pain Models,Carrageenan,2,3,2,7
+TPEA_00049,GFAP,ENSMUSG00000020932,Mouse,Mus musculus,Dorsal root ganglion (DRG),Headache,NTG,0,2,3,5
+TPEA_00050,SCN9A,ENSG00000169432,Others,Canis familiaris,HEK293T cells,Cancer Pain Models,BCP,1,4,3,8
+TPEA_00051,ATF3,ENSRNOG00000011276,Rat,Rattus norvegicus,SH-SY5Y cells,Inflammatory Pain Models,Carrageenan,3,4,2,9
+TPEA_00052,IL6,ENSG00000136244,Others,Canis familiaris,Trigeminal ganglion,Inflammatory Pain Models,CFA,2,1,1,4
+TPEA_00053,TNF,ENSG00000232810,Others,Canis familiaris,Trigeminal ganglion,Inflammatory Pain Models,MSU,2,3,3,8
+TPEA_00054,TRPM8,ENSG00000144481,Others,Canis familiaris,Hindpaw skin,Neuropathic Pain Models,DPN,3,1,0,4
+TPEA_00055,IL6,ENSG00000136244,Others,Canis familiaris,Dorsal root ganglion (DRG),Visceral Pain Models,Endometriosis,0,1,0,1
+TPEA_00056,IL6,ENSRNOG00000010278,Rat,Rattus norvegicus,Ankle joint,Central Sensitization Models,Capsaicin,0,3,2,5
+TPEA_00057,TRPA1,ENSG00000104321,Human,Homo sapiens,HEK293T cells,Headache,NTG,2,0,3,5
+TPEA_00058,ATF3,ENSRNOG00000011276,Rat,Rattus norvegicus,Ankle joint,Cancer Pain Models,BCP,3,3,2,8
+TPEA_00059,KCNQ2,ENSG00000075043,Human,Homo sapiens,Bone marrow,Inflammatory Pain Models,MSU,2,1,1,4
+TPEA_00060,CCL2,ENSG00000108691,Others,Canis familiaris,Spinal cord dorsal horn,Inflammatory Pain Models,CFA,0,0,3,3
+TPEA_00061,CALCA,ENSG00000110680,Others,Canis familiaris,Hindpaw skin,Inflammatory Pain Models,MSU,1,0,0,1
+TPEA_00062,IBA1,ENSG00000204472,Human,Homo sapiens,Bone marrow,Inflammatory Pain Models,MSU,3,3,1,7
+TPEA_00063,P2X4,ENSRNOG00000019287,Rat,Rattus norvegicus,Spinal cord dorsal horn,Inflammatory Pain Models,CFA,0,4,0,4
+TPEA_00064,SCN9A,ENSRNOG00000018932,Rat,Rattus norvegicus,Colon,Incisional Pain Models,Incisional,3,2,1,6
+TPEA_00065,MRGPRD,ENSMUSG00000047298,Mouse,Mus musculus,Hindpaw skin,Cancer Pain Models,BCP,0,4,2,6
+TPEA_00066,P2X7,ENSMUSG00000029470,Mouse,Mus musculus,HEK293T cells,Headache,NTG,3,4,2,9
+TPEA_00067,BDNF,ENSG00000176697,Others,Canis familiaris,Hindpaw skin,Central Sensitization Models,Capsaicin,0,4,2,6
+TPEA_00068,CGRP,ENSG00000110680,Human,Homo sapiens,Colon,Neuropathic Pain Models,SNL,0,2,3,5
+TPEA_00069,CCL2,ENSMUSG00000035385,Mouse,Mus musculus,Trigeminal ganglion,Headache,CSD,2,3,3,8
+TPEA_00070,P2X7,ENSG00000089041,Human,Homo sapiens,Sciatic nerve,Neuropathic Pain Models,SNI,0,0,1,1
+TPEA_00071,IBA1,ENSG00000204472,Human,Homo sapiens,Anterior cingulate cortex,Visceral Pain Models,Endometriosis,3,3,0,6
+TPEA_00072,IBA1,ENSG00000204472,Human,Homo sapiens,Spinal cord dorsal horn,Inflammatory Pain Models,MSU,0,1,1,2
+TPEA_00073,MRGPRD,ENSG00000172209,Others,Canis familiaris,Sciatic nerve,Central Sensitization Models,NMDA,3,0,2,5
+TPEA_00074,NGF,ENSMUSG00000027859,Mouse,Mus musculus,SH-SY5Y cells,Neuropathic Pain Models,SNL,1,1,0,2
+TPEA_00075,SCN10A,ENSRNOG00000002345,Rat,Rattus norvegicus,Hindpaw skin,Neuropathic Pain Models,SNL,2,2,1,5
+TPEA_00076,NGF,ENSRNOG00000008976,Rat,Rattus norvegicus,Ankle joint,Central Sensitization Models,NMDA,3,3,1,7
+TPEA_00077,CALCA,ENSRNOG00000017892,Rat,Rattus norvegicus,Colon,Visceral Pain Models,IBS,0,1,0,1
+TPEA_00078,CCL2,ENSG00000108691,Human,Homo sapiens,Spinal cord dorsal horn,Neuropathic Pain Models,SNL,1,2,1,4
+TPEA_00079,CGRP,ENSRNOG00000017892,Rat,Rattus norvegicus,Bone marrow,Headache,CSD,2,4,2,8
+TPEA_00080,BDNF,ENSG00000176697,Human,Homo sapiens,Colon,Central Sensitization Models,NMDA,1,2,2,5
+TPEA_00081,GFAP,ENSMUSG00000020932,Mouse,Mus musculus,Bone marrow,Neuropathic Pain Models,DPN,2,4,1,7
+TPEA_00082,IL1B,ENSMUSG00000027398,Mouse,Mus musculus,Dorsal root ganglion (DRG),Central Sensitization Models,NMDA,0,4,3,7
+TPEA_00083,TNF,ENSRNOG00000000837,Rat,Rattus norvegicus,Trigeminal ganglion,Inflammatory Pain Models,Carrageenan,3,4,1,8
+TPEA_00084,CXCL5,ENSMUSG00000029371,Mouse,Mus musculus,Ankle joint,Inflammatory Pain Models,Formalin,3,1,2,6
+TPEA_00085,P2X4,ENSG00000135124,Others,Canis familiaris,Hindpaw skin,Inflammatory Pain Models,Formalin,2,1,0,3
+TPEA_00086,CALCA,ENSRNOG00000017892,Rat,Rattus norvegicus,Trigeminal ganglion,Central Sensitization Models,NMDA,2,3,0,5
+TPEA_00087,MRGPRD,ENSMUSG00000047298,Mouse,Mus musculus,SH-SY5Y cells,Central Sensitization Models,Capsaicin,0,3,3,6
+TPEA_00088,CXCL1,ENSMUSG00000029375,Mouse,Mus musculus,Bone marrow,Visceral Pain Models,IBS,0,0,1,1
+TPEA_00089,NGF,ENSG00000134259,Others,Canis familiaris,Anterior cingulate cortex,Incisional Pain Models,Incisional,1,2,0,3
+TPEA_00090,TRPA1,ENSG00000104321,Others,Canis familiaris,Sciatic nerve,Inflammatory Pain Models,MSU,1,0,2,3
+TPEA_00091,P2X4,ENSG00000135124,Human,Homo sapiens,SH-SY5Y cells,Inflammatory Pain Models,Carrageenan,1,4,3,8
+TPEA_00092,MRGPRD,ENSRNOG00000027458,Rat,Rattus norvegicus,Hindpaw skin,Central Sensitization Models,Capsaicin,0,3,0,3
+TPEA_00093,ATF3,ENSG00000162772,Human,Homo sapiens,Bone marrow,Visceral Pain Models,Endometriosis,2,0,2,4
+TPEA_00094,CXCL5,ENSMUSG00000029371,Mouse,Mus musculus,Dorsal root ganglion (DRG),Headache,NTG,1,4,3,8
+TPEA_00095,ATF3,ENSG00000162772,Human,Homo sapiens,Colon,Inflammatory Pain Models,CFA,3,4,0,7
+TPEA_00096,PIEZO2,ENSG00000154864,Others,Canis familiaris,Colon,Neuropathic Pain Models,SNI,3,0,3,6
+TPEA_00097,MRGPRD,ENSRNOG00000027458,Rat,Rattus norvegicus,HEK293T cells,Neuropathic Pain Models,SNI,3,4,3,10
+TPEA_00098,CXCL5,ENSG00000163735,Others,Canis familiaris,Anterior cingulate cortex,Inflammatory Pain Models,Formalin,1,0,3,4
+TPEA_00099,SOX11,ENSG00000176887,Human,Homo sapiens,Bone marrow,Incisional Pain Models,Incisional,3,3,0,6
+TPEA_00100,IBA1,ENSG00000204472,Others,Canis familiaris,Hindpaw skin,Central Sensitization Models,NMDA,3,0,0,3
+TPEA_00101,KCNQ2,ENSMUSG00000016346,Mouse,Mus musculus,Colon,Neuropathic Pain Models,DPN,3,1,2,6
+TPEA_00102,CXCL1,ENSRNOG00000028541,Rat,Rattus norvegicus,Spinal cord dorsal horn,Central Sensitization Models,Capsaicin,2,4,2,8
+TPEA_00103,IBA1,ENSG00000204472,Human,Homo sapiens,Anterior cingulate cortex,Headache,CSD,1,4,1,6
+TPEA_00104,CXCL1,ENSG00000163739,Others,Canis familiaris,Spinal cord dorsal horn,Inflammatory Pain Models,Carrageenan,0,1,2,3
+TPEA_00105,TRPV1,ENSMUSG00000005952,Mouse,Mus musculus,Spinal cord dorsal horn,Central Sensitization Models,Capsaicin,0,2,3,5
+TPEA_00106,MRGPRD,ENSMUSG00000047298,Mouse,Mus musculus,Trigeminal ganglion,Visceral Pain Models,IBS,0,3,1,4
+TPEA_00107,PIEZO2,ENSRNOG00000033671,Rat,Rattus norvegicus,Bone marrow,Incisional Pain Models,Incisional,3,0,2,5
+TPEA_00108,SPRR1A,ENSMUSG00000050359,Mouse,Mus musculus,Bone marrow,Central Sensitization Models,Capsaicin,1,2,0,3
+TPEA_00109,SCN9A,ENSRNOG00000018932,Rat,Rattus norvegicus,Sciatic nerve,Inflammatory Pain Models,MSU,0,0,1,1
+TPEA_00110,IL1B,ENSRNOG00000013938,Rat,Rattus norvegicus,Sciatic nerve,Cancer Pain Models,BCP,0,2,3,5
+TPEA_00111,CXCL5,ENSRNOG00000032145,Rat,Rattus norvegicus,Anterior cingulate cortex,Visceral Pain Models,Endometriosis,3,4,0,7
+TPEA_00112,P2X7,ENSMUSG00000029470,Mouse,Mus musculus,HEK293T cells,Visceral Pain Models,IBS,0,1,0,1
+TPEA_00113,SOX11,ENSRNOG00000012876,Rat,Rattus norvegicus,HEK293T cells,Visceral Pain Models,Endometriosis,3,3,2,8
+TPEA_00114,SOX11,ENSRNOG00000012876,Rat,Rattus norvegicus,Colon,Inflammatory Pain Models,CFA,0,3,3,6
+TPEA_00115,P2X4,ENSG00000135124,Others,Canis familiaris,Anterior cingulate cortex,Central Sensitization Models,NMDA,1,4,2,7
+TPEA_00116,NOS1,ENSRNOG00000019762,Rat,Rattus norvegicus,Hindpaw skin,Central Sensitization Models,Capsaicin,0,1,2,3
+TPEA_00117,BDNF,ENSRNOG00000011637,Rat,Rattus norvegicus,Spinal cord dorsal horn,Central Sensitization Models,NMDA,1,2,1,4
+TPEA_00118,MRGPRD,ENSG00000172209,Others,Canis familiaris,Ankle joint,Neuropathic Pain Models,SNI,2,4,2,8
+TPEA_00119,P2X4,ENSMUSG00000029470,Mouse,Mus musculus,Colon,Incisional Pain Models,Incisional,2,1,3,6
+TPEA_00120,CGRP,ENSRNOG00000017892,Rat,Rattus norvegicus,Bone marrow,Headache,CSD,0,1,0,1
+TPEA_00121,CXCL5,ENSRNOG00000032145,Rat,Rattus norvegicus,Anterior cingulate cortex,Inflammatory Pain Models,Carrageenan,3,2,1,6
+TPEA_00122,CALCA,ENSG00000110680,Human,Homo sapiens,HEK293T cells,Incisional Pain Models,Incisional,1,3,1,5
+TPEA_00123,TRPV1,ENSMUSG00000005952,Mouse,Mus musculus,Sciatic nerve,Cancer Pain Models,BCP,0,1,2,3
+TPEA_00124,CXCL1,ENSRNOG00000028541,Rat,Rattus norvegicus,Bone marrow,Inflammatory Pain Models,Formalin,3,1,1,5
+TPEA_00125,NOS1,ENSMUSG00000029361,Mouse,Mus musculus,Bone marrow,Central Sensitization Models,NMDA,1,2,3,6
+TPEA_00126,BDNF,ENSG00000176697,Others,Canis familiaris,HEK293T cells,Incisional Pain Models,Incisional,0,0,1,1
+TPEA_00127,KCNQ2,ENSG00000075043,Others,Canis familiaris,Bone marrow,Inflammatory Pain Models,Formalin,2,1,2,5
+TPEA_00128,SOX11,ENSMUSG00000063632,Mouse,Mus musculus,Dorsal root ganglion (DRG),Inflammatory Pain Models,Formalin,0,1,1,2
+TPEA_00129,KCNQ2,ENSG00000075043,Others,Canis familiaris,Sciatic nerve,Inflammatory Pain Models,Formalin,0,3,2,5
+TPEA_00130,KCNQ2,ENSMUSG00000016346,Mouse,Mus musculus,Anterior cingulate cortex,Neuropathic Pain Models,SNL,0,2,1,3
+TPEA_00131,TRPM8,ENSG00000144481,Others,Canis familiaris,HEK293T cells,Incisional Pain Models,Incisional,0,1,3,4
+TPEA_00132,TRPM8,ENSMUSG00000036251,Mouse,Mus musculus,Anterior cingulate cortex,Inflammatory Pain Models,MSU,0,0,3,3
+TPEA_00133,CXCL5,ENSG00000163735,Human,Homo sapiens,Trigeminal ganglion,Inflammatory Pain Models,MSU,0,3,1,4
+TPEA_00134,BDNF,ENSG00000176697,Others,Canis familiaris,Spinal cord dorsal horn,Incisional Pain Models,Incisional,3,1,0,4
+TPEA_00135,IL6,ENSMUSG00000025746,Mouse,Mus musculus,Anterior cingulate cortex,Cancer Pain Models,BCP,0,0,1,1
+TPEA_00136,TRPV1,ENSG00000196689,Others,Canis familiaris,Anterior cingulate cortex,Inflammatory Pain Models,CFA,2,4,0,6
+TPEA_00137,NGF,ENSMUSG00000027859,Mouse,Mus musculus,Colon,Inflammatory Pain Models,Carrageenan,1,1,0,2
+TPEA_00138,SCN10A,ENSRNOG00000002345,Rat,Rattus norvegicus,Trigeminal ganglion,Neuropathic Pain Models,CCI,2,3,3,8
+TPEA_00139,NOS1,ENSG00000089250,Others,Canis familiaris,Anterior cingulate cortex,Cancer Pain Models,BCP,1,4,0,5
+TPEA_00140,BDNF,ENSG00000176697,Human,Homo sapiens,Anterior cingulate cortex,Inflammatory Pain Models,CFA,2,0,3,5
+TPEA_00141,SOX11,ENSMUSG00000063632,Mouse,Mus musculus,Sciatic nerve,Inflammatory Pain Models,Formalin,0,4,1,5
+TPEA_00142,IBA1,ENSRNOG00000028731,Rat,Rattus norvegicus,Dorsal root ganglion (DRG),Inflammatory Pain Models,Carrageenan,2,4,0,6
+TPEA_00143,MRGPRD,ENSG00000172209,Human,Homo sapiens,Anterior cingulate cortex,Visceral Pain Models,Endometriosis,2,3,0,5
+TPEA_00144,GAL,ENSG00000069482,Human,Homo sapiens,SH-SY5Y cells,Headache,CSD,3,2,2,7
+TPEA_00145,GFAP,ENSG00000131095,Human,Homo sapiens,SH-SY5Y cells,Inflammatory Pain Models,Carrageenan,0,2,3,5
+TPEA_00146,BDNF,ENSG00000176697,Human,Homo sapiens,Bone marrow,Neuropathic Pain Models,DPN,0,0,3,3
+TPEA_00147,TNF,ENSG00000232810,Human,Homo sapiens,Dorsal root ganglion (DRG),Inflammatory Pain Models,CFA,1,1,3,5
+TPEA_00148,ATF3,ENSMUSG00000026628,Mouse,Mus musculus,Trigeminal ganglion,Cancer Pain Models,BCP,3,3,2,8
+TPEA_00149,P2X4,ENSMUSG00000029470,Mouse,Mus musculus,Colon,Headache,CSD,3,4,0,7
+TPEA_00150,P2X7,ENSG00000089041,Others,Canis familiaris,Sciatic nerve,Inflammatory Pain Models,Formalin,1,2,3,6
+TPEA_00151,CCL2,ENSMUSG00000035385,Mouse,Mus musculus,Colon,Neuropathic Pain Models,CCI,2,2,3,7
+TPEA_00152,NLRP3,ENSMUSG00000032691,Mouse,Mus musculus,Colon,Headache,NTG,1,2,2,5
+TPEA_00153,SPRR1A,ENSG00000169474,Others,Canis familiaris,HEK293T cells,Inflammatory Pain Models,MSU,2,3,1,6
+TPEA_00154,KCNQ2,ENSG00000075043,Others,Canis familiaris,Anterior cingulate cortex,Inflammatory Pain Models,Formalin,1,3,2,6
+TPEA_00155,CXCL1,ENSMUSG00000029375,Mouse,Mus musculus,Bone marrow,Central Sensitization Models,NMDA,3,1,1,5
+TPEA_00156,SOX11,ENSRNOG00000012876,Rat,Rattus norvegicus,Anterior cingulate cortex,Neuropathic Pain Models,SNI,0,0,1,1
+TPEA_00157,P2X7,ENSG00000089041,Others,Canis familiaris,Hindpaw skin,Incisional Pain Models,Incisional,3,1,0,4
+TPEA_00158,NLRP3,ENSG00000162711,Human,Homo sapiens,Trigeminal ganglion,Cancer Pain Models,BCP,3,2,1,6
+TPEA_00159,GAL,ENSG00000069482,Human,Homo sapiens,Sciatic nerve,Neuropathic Pain Models,CIPN,3,2,0,5
+TPEA_00160,TRPM8,ENSMUSG00000036251,Mouse,Mus musculus,Sciatic nerve,Neuropathic Pain Models,SNL,1,1,3,5
+TPEA_00161,KCNQ2,ENSRNOG00000006789,Rat,Rattus norvegicus,Ankle joint,Inflammatory Pain Models,Carrageenan,3,0,1,4
+TPEA_00162,SCN9A,ENSMUSG00000075316,Mouse,Mus musculus,Dorsal root ganglion (DRG),Headache,CSD,2,3,3,8
+TPEA_00163,CCL2,ENSG00000108691,Human,Homo sapiens,Spinal cord dorsal horn,Neuropathic Pain Models,CIPN,2,2,0,4

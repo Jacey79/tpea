@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TPEA &middot; The Pain Expression Atlas</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- =================================================================
+     SECTION 1  Quick search hero (100vw x 100vh, navy panel)
+     ================================================================= -->
+<section class="hero">
+  <!-- Decorative background SVG: pain-related anatomy + bolts -->
+  <!-- Decorative background removed per spec -->
+
+  <div class="hero-inner">
+    <h1 class="fade-up">TPEA</h1>
+    <p class="hero-sub fade-up d1">A Comprehensive Resource For<br>The Pain Expression Atlas</p>
+
+    <form class="hero-search fade-up d2" onsubmit="event.preventDefault(); runQuickSearch();">
+      <div class="custom-select" id="qs-field-cs" data-value="gene">
+        <button type="button" class="hero-search-select cs-trigger" aria-haspopup="listbox" aria-expanded="false">
+          <span class="cs-label">Gene symbol</span>
+        </button>
+        <ul class="cs-popup" role="listbox">
+          <li role="option" data-value="tpea">TPEA ID</li>
+          <li role="option" data-value="gene">Gene symbol</li>
+          <li role="option" data-value="ensembl">Ensembl ID</li>
+          <li role="option" data-value="model">Pain model</li>
+          <li role="option" data-value="tissue">Source</li>
+        </ul>
+      </div>
+      <input id="qs-input" class="hero-search-input" type="text" placeholder="" autocomplete="off">
+      <button class="hero-search-btn" type="submit" aria-label="Search">
+        <svg class="glass-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search
+      </button>
+    </form>
+  </div>
+</section>
+
+<!-- =================================================================
+     SECTION 2  Welcome (full viewport, cream background)
+     ================================================================= -->
+<section class="section-fullvh">
+  <div class="container">
+    <h2 class="section-title" style="text-align:center">Welcome to TPEA!</h2>
+    <p class="section-sub" style="text-align:center">A comprehensive resource for mining pain-associated genes across multiple mammalian models.</p>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="v" data-stat="genes">0+</div>
+        <div class="l">Pain-associated<br>genes identified</div>
+      </div>
+      <div class="stat-card">
+        <div class="v" data-stat="models">0</div>
+        <div class="l">Pain models<br>covered</div>
+      </div>
+      <div class="stat-card">
+        <div class="v" data-stat="evidence">3</div>
+        <div class="l">Evidence source<br>types</div>
+      </div>
+      <div class="stat-card">
+        <div class="v" data-stat="species">5</div>
+        <div class="l">Mammalian<br>species</div>
+      </div>
+    </div>
+
+    <div class="eyebrow">Evidence sources</div>
+    <div class="card-row">
+      <div class="feat-card pert">
+        <span class="feat-tag">VP</span>
+        <h3>Validated perturbation</h3>
+        <p>Causal evidence from KO, KD, overexpression, or pharmacological intervention producing measurable changes in pain behavior.</p>
+      </div>
+      <div class="feat-card expr">
+        <span class="feat-tag">VDE</span>
+        <h3>Validated differential expression</h3>
+        <p>Hypothesis-driven RNA or protein-level confirmation of differential abundance using targeted assays (RT-qPCR, Western blot, IHC, IF, ELISA).</p>
+      </div>
+      <div class="feat-card seq">
+        <span class="feat-tag">HTP</span>
+        <h3>High-throughput profiling</h3>
+        <p>Hypothesis-free multi-gene differential expression from bulk RNA-seq, miRNA-seq, or microarray comparing pain vs. control conditions.</p>
+      </div>
+    </div>
+
+    <div class="eyebrow">Key features</div>
+    <div class="card-row">
+      <div class="feat-card compact">
+        <div class="feat-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><circle cx="6" cy="12" r="2"/><circle cx="18" cy="12" r="2"/><circle cx="12" cy="19" r="2"/><line x1="12" y1="7" x2="12" y2="17"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        </div>
+        <div>
+          <h3>Hierarchical browsing</h3>
+          <p>Navigate the pain-gene landscape by model, species, or condition.</p>
+        </div>
+      </div>
+      <div class="feat-card compact">
+        <div class="feat-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="20" x2="6" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="14"/></svg>
+        </div>
+        <div>
+          <h3>Enrichment visualizations</h3>
+          <p>Interactive charts for pathway and ontology enrichment analysis.</p>
+        </div>
+      </div>
+      <div class="feat-card compact">
+        <div class="feat-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="14" y2="18"/></svg>
+        </div>
+        <div>
+          <h3>Gene function annotations</h3>
+          <p>Curated functional descriptions for each pain-associated gene entry.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================
+     SECTION 3  What's in TPEA? (full viewport, cream)
+     ================================================================= -->
+<section class="section-fullvh">
+  <div class="container">
+    <h2 class="section-title" style="text-align:center; margin-bottom: 32px">What&rsquo;s in TPEA?</h2>
+
+    <div class="in-tpea-grid">
+      <div class="in-tpea-card">
+        <div class="head">
+          <div class="num">1</div>
+          <h3>Basic gene information</h3>
+        </div>
+        <p>Core identifiers, genomic context, and cross-database links for every entry.</p>
+        <div class="tags">
+          <span class="t">Gene symbol</span>
+          <span class="t">Full name</span>
+          <span class="t">Species</span>
+          <span class="t">Gene type</span>
+          <span class="t">Also known as</span>
+          <span class="t">Genomic location</span>
+          <span class="t">NCBI</span>
+          <span class="t">Ensembl</span>
+          <span class="t">UniProt</span>
+          <span class="t">HGNC</span>
+          <span class="t">Disease annotations</span>
+        </div>
+      </div>
+
+      <div class="in-tpea-card expr">
+        <div class="head">
+          <div class="num">2</div>
+          <h3>Detailed evidence</h3>
+        </div>
+        <p>All fields collected across the three evidence tiers (Validated perturbation, Validated differential expression, High-throughput profiling).</p>
+        <div class="tags">
+          <span class="t">Tissue / cell</span>
+          <span class="t">Species</span>
+          <span class="t">Pain model</span>
+          <span class="t">Pain type</span>
+          <span class="t">Expression assessment</span>
+          <span class="t">Effect</span>
+          <span class="t">log2FC</span>
+          <span class="t">p-value</span>
+          <span class="t">adj. p-value</span>
+          <span class="t">Perturbation type</span>
+          <span class="t">Perturbation method</span>
+          <span class="t">Perturbation site</span>
+          <span class="t">Pain assessment</span>
+          <span class="t">Disease</span>
+          <span class="t">PMID</span>
+        </div>
+      </div>
+
+      <div class="in-tpea-card seq">
+        <div class="head">
+          <div class="num">3</div>
+          <h3>Pain-model annotation</h3>
+        </div>
+        <p>A structured atlas of pain models with taxonomy, species scope, and literature anchors.</p>
+        <div class="tags">
+          <span class="t">7 model categories</span>
+          <span class="t">Sub-categories</span>
+          <span class="t">Species applicability</span>
+          <span class="t">Seminal references</span>
+          <span class="t">Assay distribution</span>
+        </div>
+      </div>
+
+      <div class="in-tpea-card score">
+        <div class="head">
+          <div class="num">4</div>
+          <h3>Confidence score</h3>
+        </div>
+        <p>A computed score summing all three evidence tiers, one number to prioritize genes for follow-up study.</p>
+        <div class="tags">
+          <span class="t">Validated perturbation</span>
+          <span class="t">Validated differential expression</span>
+          <span class="t">High-throughput profiling</span>
+          <span class="t">Gene ranking</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================
+     SECTION 4  Data Overview (full viewport, cream)
+     ================================================================= -->
+<section class="section-fullvh">
+  <div class="container">
+    <h2 class="section-title" style="text-align:center">Data Overview</h2>
+    <p class="section-sub" style="text-align:center">Pain-associated gene counts across species, evidence types, and pain-model categories.</p>
+
+    <div class="panel">
+      <div class="panel-banner">
+        <span class="icon"><svg viewBox="0 0 24 24"><line x1="6" y1="20" x2="6" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="14"/></svg></span>
+        Data overview
+      </div>
+      <div class="panel-body">
+        <div class="fix-by-row">
+          <span class="label">Fix by</span>
+          <div class="pill-group" id="fix-by-group">
+            <button class="pill active" data-fix="species">Species</button>
+            <button class="pill" data-fix="model">Pain model</button>
+            <button class="pill" data-fix="evidence">Evidence type</button>
+          </div>
+          <span style="margin-left: 12px; color: var(--c-mute); font-size: 15.6px" id="fix-by-hint">Select species</span>
+          <div class="pill-group" id="fix-by-options" style="margin-left: 8px"></div>
+        </div>
+
+        <div class="chart-box" style="position: relative">
+          <h4 id="ov-chart-title">Human: genes by pain model &times; evidence type</h4>
+          <div class="chart-legend chart-legend-top" id="ov-legend">
+            <span><span class="dot" style="background: var(--c-pert)"></span> Validated perturbation</span>
+            <span><span class="dot" style="background: var(--c-expr)"></span> Validated differential expression</span>
+            <span><span class="dot" style="background: var(--c-seq)"></span> High-throughput profiling</span>
+          </div>
+          <div style="position: relative">
+            <svg id="overview-chart" viewBox="0 0 900 330" style="width: 100%; height: auto"></svg>
+            <div class="chart-tooltip" id="ov-tooltip"></div>
+          </div>
+        </div>
+
+        <div style="margin-top: 22px; background: var(--c-white); border: 1px solid var(--c-line-soft); border-radius: 8px; padding: 18px">
+          <h4 style="font-family: var(--f-body); font-weight: 700; font-size: 16.8px; color: var(--c-navy); margin-bottom: 14px" id="ov-table-title">Detailed breakdown</h4>
+          <div style="overflow-x: auto">
+            <table class="data-table" id="ov-table">
+              <thead><tr id="ov-head"></tr></thead>
+              <tbody id="ov-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="js/data.js"></script>
+<script src="js/layout.js"></script>
+<script>
+(async () => {
+TPEA_LAYOUT.mount();
+await window.TPEA_DATA_READY;
+const D = window.TPEA_DATA;
+const U = window.TPEA_UTIL;
+
+/* =========== Quick search default values =========== */
+const QS_DEFAULTS = {
+  tpea: 'TPEA_00001',
+  gene: 'TRPV1',
+  ensembl: 'ENSMUSG00000005952',
+  model: 'CCI',
+  tissue: 'Dorsal root ganglion (DRG)',
+};
+function getQsField() {
+  return U.qs('#qs-field-cs').dataset.value || 'gene';
+}
+function updateQsPlaceholder() {
+  const f = getQsField();
+  const v = QS_DEFAULTS[f] || '';
+  U.qs('#qs-input').value = v;
+}
+
+/* Custom-select wiring */
+(function () {
+  const cs = U.qs('#qs-field-cs');
+  if (!cs) return;
+  const trigger = cs.querySelector('.cs-trigger');
+  const popup   = cs.querySelector('.cs-popup');
+  const labelEl = cs.querySelector('.cs-label');
+  function close() { cs.classList.remove('open'); trigger.setAttribute('aria-expanded', 'false'); }
+  function open()  { cs.classList.add('open');    trigger.setAttribute('aria-expanded', 'true');  }
+  trigger.addEventListener('click', e => {
+    e.stopPropagation();
+    if (cs.classList.contains('open')) close(); else open();
+  });
+  popup.querySelectorAll('li[role="option"]').forEach(li => {
+    li.addEventListener('click', () => {
+      cs.dataset.value = li.dataset.value;
+      labelEl.textContent = li.textContent;
+      popup.querySelectorAll('li').forEach(x => x.classList.remove('cs-selected'));
+      close();
+      updateQsPlaceholder();
+    });
+  });
+  document.addEventListener('click', e => {
+    if (!cs.contains(e.target)) close();
+  });
+  /* Keyboard: Escape closes; ArrowDown opens */
+  trigger.addEventListener('keydown', e => {
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowDown' || e.key === 'Enter') { e.preventDefault(); open(); }
+  });
+})();
+updateQsPlaceholder();
+
+function runQuickSearch() {
+  const field = getQsField();
+  const v = U.qs('#qs-input').value.trim();
+  if (!v) return;
+  const qs = new URLSearchParams();
+  if (field === 'gene') qs.set('gene', v);
+  else if (field === 'tpea') qs.set('tpea', v);
+  else if (field === 'tissue') qs.set('tissue', v);
+  else if (field === 'model') qs.set('model', v);
+  else if (field === 'ensembl') qs.set('ensembl', v);
+  location.href = 'search.html?' + qs.toString();
+}
+window.runQuickSearch = runQuickSearch;
+
+/* =========== Animate Welcome stats =========== */
+const raf = window.requestAnimationFrame || (cb => setTimeout(() => cb(Date.now()), 16));
+const nowTS = () => (window.performance && performance.now) ? performance.now() : Date.now();
+function animCount(el, target, suffix = '') {
+  el.textContent = target.toLocaleString() + suffix;
+  try {
+    const dur = 1100;
+    const start = nowTS();
+    function tick(now) {
+      const t = Math.min(1, ((typeof now === 'number' ? now : nowTS()) - start) / dur);
+      const e = 1 - Math.pow(1 - t, 3);
+      el.textContent = Math.floor(target * e).toLocaleString() + suffix;
+      if (t < 1) raf(tick);
+      else el.textContent = target.toLocaleString() + suffix;
+    }
+    raf(tick);
+  } catch (e) { /* noop */ }
+}
+animCount(U.qs('[data-stat="genes"]'),    20000, '+');
+animCount(U.qs('[data-stat="models"]'),   D.painModels.length);
+animCount(U.qs('[data-stat="evidence"]'), 3);
+animCount(U.qs('[data-stat="species"]'),  5);
+
+/* =========== Data Overview interactive  =========== */
+const SPECIES   = ['Human','Mouse','Rat','Others'];
+const PMCATS    = D.painCategories;
+const EVTYPES   = [
+  { key: 'pert', label: 'Validated perturbation',            color: '#3492B2' },
+  { key: 'expr', label: 'Validated differential expression', color: '#58BBD1' },
+  { key: 'seq',  label: 'High-throughput profiling',         color: '#9ED17B' },
+];
+
+let OV_STATE = { fix: 'species', selected: 'Human' };
+
+function fixOptions() {
+  if (OV_STATE.fix === 'species') return SPECIES.map(sp => ({ value: sp, label: D.speciesSci(sp) }));
+  if (OV_STATE.fix === 'model')   return PMCATS.map(c => ({ value: c, label: c }));
+  return EVTYPES.map(e => ({ value: e.label, label: e.label }));
+}
+
+function renderFixOptions() {
+  const opts = fixOptions();
+  const host = U.qs('#fix-by-options');
+  host.innerHTML = '';
+  opts.forEach(o => {
+    const b = document.createElement('button');
+    b.className = 'pill' + (OV_STATE.selected === o.value ? ' active' : '');
+    b.textContent = o.label;
+    if (OV_STATE.fix === 'species') b.style.fontStyle = 'italic';
+    b.addEventListener('click', () => {
+      OV_STATE.selected = o.value;
+      renderFixOptions();
+      drawOverview();
+    });
+    host.appendChild(b);
+  });
+}
+
+function getOverviewData() {
+  // Returns: { groups: [labels for x-axis], series: { ... }, mode: 'evidence-colored' | 'species-colored' }
+  if (OV_STATE.fix === 'species') {
+    // x-axis: pain categories; bars: evidence types
+    const sp = OV_STATE.selected;
+    const spSci = D.speciesSci(sp);
+    const groups = PMCATS.map(c => c.replace(' Pain Models', '').replace(' Models', ''));
+    const series = { seq: [], expr: [], pert: [] };
+    PMCATS.forEach(c => {
+      const recs = D.records.filter(r => r.organism === sp && r.model_cat === c);
+      series.seq.push(recs.reduce((a, r) => a + r.seq, 0));
+      series.expr.push(recs.reduce((a, r) => a + r.expr, 0));
+      series.pert.push(recs.reduce((a, r) => a + r.pert, 0));
+    });
+    return {
+      mode: 'evidence-colored',
+      groups, series,
+      title: spSci + ': genes by pain model \u00d7 evidence type',
+      tableTitle: spSci + ': detailed breakdown',
+      tableHeadFirst: 'Evidence type',
+      colLabels: groups,
+      rowLabels: EVTYPES.map(e => e.label),
+      cellValue: (rIdx, cIdx) => series[EVTYPES[rIdx].key][cIdx],
+    };
+  } else if (OV_STATE.fix === 'model') {
+    // PER SPEC PAGE 7: x-axis = species; bar colors = evidence types
+    const cat = OV_STATE.selected;
+    const groups = SPECIES.map(sp => D.speciesSci(sp));
+    const series = { seq: [], expr: [], pert: [] };
+    SPECIES.forEach(sp => {
+      const recs = D.records.filter(r => r.organism === sp && r.model_cat === cat);
+      series.seq.push(recs.reduce((a, r) => a + r.seq, 0));
+      series.expr.push(recs.reduce((a, r) => a + r.expr, 0));
+      series.pert.push(recs.reduce((a, r) => a + r.pert, 0));
+    });
+    return {
+      mode: 'evidence-colored',
+      groups, series,
+      title: cat + ': genes by species \u00d7 evidence type',
+      tableTitle: cat + ': detailed breakdown',
+      tableHeadFirst: 'Evidence type',
+      colLabels: groups,
+      rowLabels: EVTYPES.map(e => e.label),
+      cellValue: (rIdx, cIdx) => series[EVTYPES[rIdx].key][cIdx],
+    };
+  } else {
+    // PER SPEC PAGE 8: fix by evidence type; x-axis = pain categories; bar colors = species
+    const evLabel = OV_STATE.selected;
+    const evKey = (EVTYPES.find(e => e.label === evLabel) || EVTYPES[0]).key;
+    const groups = PMCATS.map(c => c.replace(' Pain Models', '').replace(' Models', ''));
+    const series = {};
+    SPECIES.forEach(sp => {
+      series[sp] = PMCATS.map(c => {
+        const recs = D.records.filter(r => r.organism === sp && r.model_cat === c);
+        return recs.reduce((a, r) => a + r[evKey], 0);
+      });
+    });
+    return {
+      mode: 'species-colored',
+      groups, series,
+      title: evLabel + ': genes by pain category \u00d7 species',
+      tableTitle: evLabel + ': detailed breakdown',
+      tableHeadFirst: 'Species',
+      colLabels: groups,
+      rowLabels: SPECIES.map(sp => D.speciesSci(sp)),
+      cellValue: (rIdx, cIdx) => series[SPECIES[rIdx]][cIdx],
+    };
+  }
+}
+
+function wrapLabel(text, maxChars) {
+  // Splits a long label into up to 3 lines, breaking on whitespace.
+  if (!text) return [''];
+  if (text.length <= maxChars) return [text];
+  const words = text.split(/\s+/);
+  const lines = [];
+  let cur = '';
+  for (const w of words) {
+    const tryLine = cur ? cur + ' ' + w : w;
+    if (tryLine.length <= maxChars) cur = tryLine;
+    else {
+      if (cur) lines.push(cur);
+      cur = w.length > maxChars ? w.slice(0, maxChars - 1) + '\u2026' : w;
+    }
+  }
+  if (cur) lines.push(cur);
+  if (lines.length > 3) {
+    const last = lines.slice(2).join(' ');
+    lines.length = 2;
+    lines.push(last.length > maxChars ? last.slice(0, maxChars - 1) + '\u2026' : last);
+  }
+  return lines;
+}
+
+function drawOverview() {
+  const data = getOverviewData();
+  U.qs('#ov-chart-title').textContent = data.title;
+  U.qs('#ov-table-title').textContent = data.tableTitle;
+
+  // ---- SVG bar chart (grouped) ----
+  const svg = U.qs('#overview-chart');
+  const W = 900, H = 330;
+  const padL = 50, padR = 16, padT = 16, padB = 70; // bottom band sized for 3-line labels (no extra blank space)
+  const plotW = W - padL - padR;
+  const plotH = H - padT - padB;
+  // Update viewBox to match new height (so SVG renders at correct ratio)
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+
+  let html = '';
+
+  // Color scheme: evidence-colored (Seq/Expr/Pert) or species-colored (Human/Mouse/Rat/Others)
+  const speciesColors = { Human: '#313A5B', Mouse: '#8D2E2C', Rat: '#3492B2', Others: '#9ED17B' };
+  const seriesKeys = data.mode === 'species-colored'
+    ? SPECIES
+    : EVTYPES.map(e => e.key);
+  const seriesColor = data.mode === 'species-colored'
+    ? key => speciesColors[key]
+    : key => (EVTYPES.find(e => e.key === key) || {}).color;
+  const seriesLabel = data.mode === 'species-colored'
+    ? key => D.speciesSci(key)
+    : key => (EVTYPES.find(e => e.key === key) || {}).label;
+
+  // compute max
+  let maxV = 1;
+  seriesKeys.forEach(k => {
+    (data.series[k] || []).forEach(v => { if (v > maxV) maxV = v; });
+  });
+  maxV = Math.ceil(maxV / 10) * 10 || 10;
+
+  // gridlines + y labels
+  for (let i = 0; i <= 5; i++) {
+    const y = padT + plotH - (plotH / 5) * i;
+    const v = Math.round((maxV / 5) * i);
+    html += '<line x1="' + padL + '" y1="' + y + '" x2="' + (W - padR) + '" y2="' + y + '" stroke="#e4ddd3" stroke-width="1"/>';
+    html += '<text x="' + (padL - 6) + '" y="' + (y + 4) + '" text-anchor="end" font-size="11" font-family="JetBrains Mono, monospace" fill="#6b7180">' + v + '</text>';
+  }
+  html += '<line x1="' + padL + '" y1="' + padT + '" x2="' + padL + '" y2="' + (padT + plotH) + '" stroke="#cfc9c2" stroke-width="1"/>';
+
+  // bars
+  const groupCount = data.groups.length;
+  const groupW = plotW / groupCount;
+  const barCount = seriesKeys.length;
+  const barW = Math.max(8, Math.min(36, groupW / (barCount + 1)));
+  const barGap = 4;
+
+  data.groups.forEach((g, gi) => {
+    const groupX = padL + gi * groupW;
+    seriesKeys.forEach((k, ki) => {
+      const v = (data.series[k] || [])[gi] || 0;
+      const h = (v / maxV) * plotH;
+      const x = groupX + (groupW - (barCount * (barW + barGap) - barGap)) / 2 + ki * (barW + barGap);
+      const y = padT + plotH - h;
+      html += '<rect class="ov-bar" data-tip="' + U.esc(seriesLabel(k)) + ': ' + v + '" x="' + x + '" y="' + y + '" width="' + barW + '" height="' + h + '" fill="' + seriesColor(k) + '"/>';
+    });
+    // x-axis label — HORIZONTAL, up-to-3-line wrap (per spec page 6)
+    const lx = groupX + groupW / 2;
+    const baseY = padT + plotH + 16;
+    const lines = wrapLabel(String(g), 13);
+    lines.forEach((line, li) => {
+      const ly = baseY + li * 13;
+      html += '<text x="' + lx + '" y="' + ly + '" text-anchor="middle" font-size="10.5" font-family="Arial, sans-serif" fill="#475569">' + U.esc(line) + '</text>';
+    });
+  });
+
+  svg.innerHTML = html;
+
+  // ---- Update legend dynamically ----
+  const legend = U.qs('#ov-legend');
+  if (legend) {
+    legend.innerHTML = seriesKeys.map(k =>
+      '<span><span class="dot" style="background:' + seriesColor(k) + '"></span> ' + U.esc(seriesLabel(k)) + '</span>'
+    ).join('');
+  }
+
+  // Wire bar tooltips
+  const tip = U.qs('#ov-tooltip');
+  svg.querySelectorAll('.ov-bar').forEach(bar => {
+    bar.style.cursor = 'pointer';
+    bar.addEventListener('mousemove', e => {
+      tip.textContent = bar.getAttribute('data-tip');
+      tip.classList.add('show');
+      const rect = svg.getBoundingClientRect();
+      tip.style.left = (e.clientX - rect.left + 12) + 'px';
+      tip.style.top = (e.clientY - rect.top - 30) + 'px';
+    });
+    bar.addEventListener('mouseleave', () => tip.classList.remove('show'));
+  });
+
+  // ---- Detailed breakdown table ----
+  const head = U.qs('#ov-head');
+  const body = U.qs('#ov-body');
+  let h = '<th>' + data.tableHeadFirst + '</th>';
+  data.colLabels.forEach(c => { h += '<th style="text-align:center">' + U.esc(c) + '</th>'; });
+  head.innerHTML = h;
+
+  let bh = '';
+  data.rowLabels.forEach((rl, ri) => {
+    let row = '<tr><td><strong>' + U.esc(rl) + '</strong></td>';
+    data.colLabels.forEach((cl, ci) => {
+      row += '<td style="text-align:center" class="text-mono">' + (data.cellValue(ri, ci) || 0) + '</td>';
+    });
+    row += '</tr>';
+    bh += row;
+  });
+  // Total row
+  let totalRow = '<tr style="background:var(--c-cream)"><td><strong>Total</strong></td>';
+  data.colLabels.forEach((cl, ci) => {
+    let s = 0;
+    data.rowLabels.forEach((rl, ri) => { s += (data.cellValue(ri, ci) || 0); });
+    totalRow += '<td style="text-align:center" class="text-mono"><strong>' + s + '</strong></td>';
+  });
+  totalRow += '</tr>';
+  bh += totalRow;
+  body.innerHTML = bh;
+}
+
+/* fix-by group buttons */
+U.qsa('#fix-by-group .pill').forEach(p => {
+  p.addEventListener('click', () => {
+    U.qsa('#fix-by-group .pill').forEach(x => x.classList.remove('active'));
+    p.classList.add('active');
+    OV_STATE.fix = p.dataset.fix;
+    OV_STATE.selected = fixOptions()[0].value;
+    if (OV_STATE.fix === 'species') U.qs('#fix-by-hint').textContent = 'Select species';
+    else if (OV_STATE.fix === 'model') U.qs('#fix-by-hint').textContent = 'Select pain category';
+    else U.qs('#fix-by-hint').textContent = 'Select evidence type';
+    renderFixOptions();
+    drawOverview();
+  });
+});
+
+renderFixOptions();
+drawOverview();
+})();
+</script>
+</body>
+</html>
