@@ -87,7 +87,23 @@
     // (e.g. https://user.github.io/repo/) and at custom deploy paths.
     return 'data/' + name;
   }
+  const GZ_FILES = new Set(['records.csv', 'evidence_sequencing.csv']);
+
   async function fetchCsv(name) {
+    if (GZ_FILES.has(name)) {
+      const url = 'data/' + name + '.gz';
+      let res;
+      try { res = await fetch(url, { cache: 'no-store' }); }
+      catch (err) { throw new Error('Failed to fetch ' + url + ': ' + err.message); }
+      if (!res.ok) throw new Error('HTTP ' + res.status + ' fetching ' + url);
+      const buf = await res.arrayBuffer();
+      const ds = new DecompressionStream('gzip');
+      const writer = ds.writable.getWriter();
+      writer.write(new Uint8Array(buf));
+      writer.close();
+      const out = await new Response(ds.readable).text();
+      return parseCsv(out);
+    }
     const url = dataPath(name);
     let res;
     try { res = await fetch(url, { cache: 'no-store' }); }
