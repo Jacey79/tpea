@@ -27,28 +27,7 @@
      Designed for TPEA: a stylized abstract pain awareness ribbon
      with a small accent dot, clean and memorable at small sizes. */
   function logoMarkSVG(size = 40) {
-    return `
-<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" aria-hidden="true">
-  <circle cx="32" cy="32" r="28" fill="#EEE9E3" stroke="#EEE9E3" stroke-width="1"/>
-  <!-- Stylized brain + bolt motif: cream brain silhouette with red accent bolt -->
-  <g transform="translate(14,14)">
-    <!-- Brain outline -->
-    <path d="M 6 22
-             C 2 22, 2 16, 6 14
-             C 4 10, 10 6, 14 8
-             C 18 4, 26 6, 28 12
-             C 34 12, 34 20, 30 22
-             C 32 26, 28 30, 24 28
-             C 22 32, 14 32, 12 28
-             C 6 28, 4 26, 6 22 Z"
-          fill="#313A5B" stroke="#313A5B" stroke-width="0.5" stroke-linejoin="round"/>
-    <!-- Brain folds -->
-    <path d="M 10 16 Q 14 18, 18 14" fill="none" stroke="#EEE9E3" stroke-width="0.8" stroke-linecap="round"/>
-    <path d="M 14 24 Q 20 22, 26 18" fill="none" stroke="#EEE9E3" stroke-width="0.8" stroke-linecap="round"/>
-    <!-- Pain bolt - red -->
-    <path d="M 22 4 L 18 10 L 22 10 L 19 16" fill="none" stroke="#8D2E2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  </g>
-</svg>`;
+    return `<img src="data/favicon.png" width="${size}" height="${size}" alt="TPEA logo" style="border-radius:4px;vertical-align:middle;">`;
   }
 
   function headerHTML() {
