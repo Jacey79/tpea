@@ -221,6 +221,7 @@
       log2fc:      toFloat(r.log2fc),
       pvalue:      toFloat(r.pvalue),
       adjp:        toFloat(r.adjp),
+      disease:     r.disease || '',
       pmid:        r.pmid,
     }));
 

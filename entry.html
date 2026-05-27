@@ -440,6 +440,8 @@ if (!rec) {
       { label: 'log2FC',          tip: 'Log2 fold change (pain vs. control)' },
       { label: 'p-value',         tip: 'Raw p-value of the differential test' },
       { label: 'adj. p',          tip: 'Multiple-testing-corrected p-value' },
+      { label: 'Disease',         tip: 'Associated disease or pain condition' },
+      { label: 'Disease',         tip: 'Associated disease or pain condition' },
       { label: 'PMID',            tip: 'PubMed identifier of the source paper' },
     ],
     tdRender: r => `
@@ -452,6 +454,7 @@ if (!rec) {
         <td class="text-mono">${r.log2fc.toFixed(2)}</td>
         <td class="text-mono">${r.pvalue.toExponential(2)}</td>
         <td class="text-mono">${r.adjp.toExponential(2)}</td>
+        <td>${U.esc(r.disease)}</td>
         <td>${U.pmidLink(r.pmid)}</td>
       </tr>
     `,
