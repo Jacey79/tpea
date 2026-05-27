@@ -1,3 +1,3 @@
-analysis_id,tpea_id,gse,assay,tissue,direction,log2fc,pvalue,adjp,samples,pmid
-TPEA-S-00001-01,TPEA_00001,GSE123456,RNA-Seq,Dorsal root ganglion (DRG),Up,2.45,1.23e-08,5.67e-06,3 ctrl / 3 pain,31234567
-TPEA-S-00001-02,TPEA_00001,GSE234567,Microarray,Dorsal root ganglion (DRG),Up,1.78,4.5e-07,2.1e-05,4 ctrl / 4 pain,30123456
+analysis_id,tpea_id,gse,assay,tissue,direction,log2fc,pvalue,adjp,pmid
+TPEA-S-00001-01,TPEA_00001,GSE123456,RNA-Seq,Dorsal root ganglion (DRG),Up,2.45,1.23e-08,5.67e-06,31234567
+TPEA-S-00001-02,TPEA_00001,GSE234567,Microarray,Dorsal root ganglion (DRG),Up,1.78,4.5e-07,2.1e-05,30123456

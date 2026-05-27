@@ -221,7 +221,6 @@
       log2fc:      toFloat(r.log2fc),
       pvalue:      toFloat(r.pvalue),
       adjp:        toFloat(r.adjp),
-      samples:     r.samples,
       pmid:        r.pmid,
     }));
 
