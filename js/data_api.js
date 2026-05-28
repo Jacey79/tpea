@@ -40,17 +40,17 @@
     return parseCsv(await res.text());
   }
 
-  async function fetchAllRecords() {
-    const pageSize = 1000;
-    let page = 1, all = [];
-    while (true) {
-      const res = await fetch(`${API}/api/records?limit=${pageSize}&page=${page}`);
-      const json = await res.json();
-      all = all.concat(json.data);
-      if (all.length >= json.total) break;
-      page++;
-    }
-    return all;
+  async function fetchCsvGz(name) {
+    const url = 'data/' + name + '.gz';
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status + ' fetching ' + url);
+    const buf = await res.arrayBuffer();
+    const ds = new DecompressionStream('gzip');
+    const writer = ds.writable.getWriter();
+    writer.write(new Uint8Array(buf));
+    writer.close();
+    const out = await new Response(ds.readable).text();
+    return parseCsv(out);
   }
 
   function toInt(v) { if (v === '' || v == null) return 0; const n = parseInt(v, 10); return Number.isFinite(n) ? n : 0; }
@@ -65,7 +65,7 @@
       tissuesRaw, tissueCatalogRaw,
       exprRaw, pertRaw, diseasesRaw, variantsRaw,
     ] = await Promise.all([
-      fetchAllRecords(),
+      fetchCsvGz('records.csv'),
       fetchCsv('genes.csv'),
       fetchCsv('pain_models.csv'),
       fetchCsv('pain_types.csv'),
